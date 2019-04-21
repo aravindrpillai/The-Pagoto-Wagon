@@ -8,8 +8,7 @@ class LoginModel extends CI_Model{
 		$this->db->where(array('username' => $username, 'password'=>$password));
 		$query = $this->db->get();
 		$return = $query->result_array();
-		echo "<pre>";
-		print_r($return);
+		return $return;
     }
 
 }

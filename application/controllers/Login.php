@@ -15,6 +15,11 @@ class Login extends CI_Controller {
 	public function authenticate(){
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$this->LoginModel->authenticateUser($username,$password);
+		$resp = $this->LoginModel->authenticateUser($username,$password);
+		
+		echo "<pre>";
+		print_r($resp[0]['id']);
+		
+		
 	}
 }

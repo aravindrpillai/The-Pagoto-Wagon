@@ -20,6 +20,7 @@
   </div>
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg"><font color="red"><?php echo $flash_message; ?></font></p>
 
     <form action="<?php echo base_url("login/authenticate") ?>" method="post">
       <div class="form-group has-feedback">

@@ -3,7 +3,7 @@
 class LoginModel extends CI_Model{
 
     function authenticateUser($username,$password){
-		$this->db->select("id");
+		$this->db->select(array('id','name','dp','last_logged_in'));
 		$this->db->from("users");
 		$this->db->where(array('username' => $username, 'password'=>$password));
 		$query = $this->db->get();

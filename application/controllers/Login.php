@@ -9,17 +9,23 @@ class Login extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('login');
+		$data["flash_message"] = $this->session->flashdata('flash_message');
+		$this->load->view('login',$data);
 	}
-	
+
 	public function authenticate(){
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$resp = $this->LoginModel->authenticateUser($username,$password);
-		
-		echo "<pre>";
-		print_r($resp[0]['id']);
-		
-		
+		if(count($resp) == 1){
+			$this->session->set_userdata('user_id',$resp[0]['id']);
+			$this->session->set_userdata('user_name',$resp[0]['name']);
+			$this->session->set_userdata('user_dp',$resp[0]['dp']);
+			$this->session->set_flashdata('info_flash_message', 'Your Last Login Was On '.$resp[0]['last_logged_in']);
+			redirect("Home");
+		}else{
+			$this->session->set_flashdata('flash_message', 'Invalid Login Credentials');
+			redirect("Login");
+		}
 	}
 }

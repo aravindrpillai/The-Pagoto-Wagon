@@ -21,6 +21,7 @@ class Login extends CI_Controller {
 			$this->session->set_userdata('user_id',$resp[0]['id']);
 			$this->session->set_userdata('user_name',$resp[0]['name']);
 			$this->session->set_userdata('user_dp',$resp[0]['dp']);
+			$this->session->set_userdata('employee_id',$resp[0]['employee_id']);
 			$this->session->set_flashdata('info_flash_message', 'Your Last Login Was On '.$resp[0]['last_logged_in']);
 			redirect("Home");
 		}else{

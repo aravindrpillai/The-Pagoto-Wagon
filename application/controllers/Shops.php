@@ -23,7 +23,7 @@ class Shops extends CI_Controller {
 
 	public function index(){
 		$shops = $this->ShopsModel->getAllShops();
-		$this->load->view('shops_list_all',array("shops"=>$shops,"name"=>"Pagoto Wagon"));
+		$this->load->view('shops_list_all',array("shops"=>$shops,"name"=>"Pagoto Wagon","post"=>$_POST));
 	}
 
 	public function addShop(){
@@ -46,8 +46,9 @@ class Shops extends CI_Controller {
 			}else{
 				$this->session->set_flashdata('error_flash_message', 'Shop with same name and location exists');
 			}
-		}		
-		$this->load->view('shops_list_all',$_POST);
+		}
+		$shops = $this->ShopsModel->getAllShops();		
+		$this->load->view('shops_list_all',array("shops"=>$shops,"post"=>$_POST));
 	}
 	
 	function update(){

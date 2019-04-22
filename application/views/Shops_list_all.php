@@ -56,9 +56,9 @@
 				<tr id="new_shop_tr">
                   <form action="<?php echo base_url('shops/addshop') ?>" method="POST">
 				  <td></td>
-                  <td><input type="text" name="name" value="<?php echo @$name ?>" class="form-control"></td>
-                  <td><input type="text" name="place" value="<?php echo @$place ?>" class="form-control"></td>
-                  <td><input type="date" name="start_date" value="<?php echo @$start_date ?>" class="form-control"></td>
+                  <td><input type="text" name="name" value="<?php echo @$post['name'] ?>" class="form-control"></td>
+                  <td><input type="text" name="place" value="<?php echo @$post["place"] ?>" class="form-control"></td>
+                  <td><input type="date" name="start_date" value="<?php echo @$post["start_date"] ?>" class="form-control"></td>
                   <td>#</td>
                   <td>
 					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>

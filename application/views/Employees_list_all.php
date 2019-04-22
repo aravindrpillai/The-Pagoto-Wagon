@@ -46,28 +46,54 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>#</th>
-                  <th>Display Picture</th>
+                  <th>DP</th>
                   <th>Employee ID</th>
                   <th>Full Name</th>
-                  <th>Aadhar Number</th>
-                  <th>Employment Start Date</th>
-                  <th>Employment Status</th>
+                  <th>Mobile No</th>
+                  <th>Aadhar Np</th>
+                  <th>Emplymt Start Date</th>
+                  <th>Emplymt Status</th>
                   <th>Actions</th>
                 </tr>
 				<tr id="new_shop_tr">
                   <form action="<?php echo base_url('employees/addemployee') ?>" method="POST">
 				  <td></td>
-                  <td><input type="text" name="name" value="<?php echo @$name ?>" class="form-control"></td>
-                  <td><input type="text" name="place" value="<?php echo @$place ?>" class="form-control"></td>
-                  <td><input type="date" name="start_date" value="<?php echo @$start_date ?>" class="form-control"></td>
-                  <td>#</td>
+				  <td></td>
+                  <td><input type="text" name="name" value="<?php echo @$post["name"] ?>" class="form-control"></td>
+                  <td><input type="number" name="mobile_number" value="<?php echo @$post["mobile_number"] ?>" class="form-control"></td>
+                  <td><input type="text" name="aadhar_number" value="<?php echo @$post["aadhar_number"] ?>" class="form-control"></td>
+                  <td><input type="date" name="employement_start_date" value="<?php echo @$post["employement_start_date"] ?>" class="form-control"></td>
+                  <td></td>
                   <td>
-					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>
-					<button type="reset" class="btn btn-flat btn-warning" onClick="addNewShop()"><i class="fa fa-close"></i> Close </button>
+					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
+					<button type="reset" class="btn btn-flat btn-warning" onClick="addNewEmployee()"><i class="fa fa-close"></i></button>
 				  </td>
 				  </form>
                 </tr>
+				<?php foreach($employees as $key=>$employee ): ?>
+				<tr>
+                  <form action="<?php echo base_url('employees/UpdateEmployee') ?>" method="POST">
+				  <td><img src="<?php echo base_url("assets/dp/".$employee['dp']) ?>" width="40px" height="40px"></td>
+				  <td><input type="text" value="<?php echo $employee['employee_id'] ?>" class="employee_form form-control" style="width:100px!important"></td>
+                  <td><input type="text" name="name" value="<?php echo $employee['name'] ?>" class="employee_form form-control"></td>
+                  <td><input type="number" name="mobile_number" value="<?php echo $employee['mobile_number'] ?>" class="employee_form form-control"></td>
+                  <td><input type="text" name="aadhar_no" value="<?php echo $employee['aadhar_number'] ?>" class="employee_form form-control"></td>
+                  <td><input type="date" name="employement_start_date" value="<?php echo $employee['employement_start_date'] ?>" class="employee_form form-control"></td>
+                  <td>
+					<?php if($employee['retired']): ?>
+					<button type="submit" class="btn btn-flat btn-error"><i class="fa fa-close"></i> Retired </button>
+					<?php else: ?>
+					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Active </button>
+					<?php endif; ?>
+				  </td>
+                  <td>
+					<button type="submit" class="btn btn-flat btn-info"><i class="fa fa-pencil"></i></button>
+					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>
+					<button type="reset" class="btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
+				  </td>
+				  </form>
+                </tr>
+				<?php endforeach; ?>
             </table>
             </div>
           </div>
@@ -90,22 +116,27 @@
 <script src="<?php echo base_url('assets/bootstrap/dist/js/adminlte.min.js') ?>"></script>
 <script>
 	$("#new_shop_tr").hide();
-	var addNewShopFlag = false;
+	var addNewEmpFlag = false;
 	function addNewEmployee(){
-		if(addNewShopFlag){
+		if(addNewEmpFlag){
 			$("#new_shop_tr").hide();
 			$("#add_shop_btn").show();
-			addNewShopFlag = false;
+			addNewEmpFlag = false;
 		}else{
 			$("#new_shop_tr").show();
 			$("#add_shop_btn").hide();
-			addNewShopFlag = true;
+			addNewEmpFlag = true;
 		}
 	}
 	
 	if("<?php echo $this->session->flashdata('display_form') ?>" == "1"){
-		addNewShop();
+		addNewEmployee();
 	}
+	
+//====================================================	
+	
+	
+
 	
 	$(".update_save_btn").hide();
 	$(".cancell_update_btn").hide();
@@ -131,7 +162,7 @@
 </script>
 
 <style>
-	.shop_form {
+	.employee_form {
 		background-color:transparent!important;
 		border: 0px solid;
 	}

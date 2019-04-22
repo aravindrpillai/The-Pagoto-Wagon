@@ -8,6 +8,8 @@ class Home extends CI_Controller {
 		 if(!$this->session->userdata('user_id')){
 			$this->session->set_flashdata('flash_message', 'Session timeout');
 			redirect("Login");
+		 }else{
+			$this->session->set_flashdata('is_home_selected',"active"); 
 		 }
 	}
 

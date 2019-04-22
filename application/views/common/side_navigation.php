@@ -12,17 +12,31 @@
         <li class="header">MAIN NAVIGATION</li>
         
 		<li class="<?php echo @$this->session->flashdata('is_home_selected') ?> ">
-          <a href="<?php echo base_url('/Welcome') ?>"><i class="fa fa-home"></i> <span>Home</span></a>
+          <a href="<?php echo base_url('/Home') ?>"><i class="fa fa-home"></i> <span>Home</span></a>
         </li>
 		
+		<?php if(@$this->session->userdata('is_master')): ?>
+			<li class="<?php echo @$this->session->flashdata('is_shops_selected') ?>">
+			  <a href="<?php echo base_url('/Shops') ?>"><i class="fa fa-building"></i> <span>Shops</span></a>
+			</li>
+			<li class="<?php echo @$this->session->flashdata('is_employees_selected') ?>">
+			  <a href="<?php echo base_url('/Employees') ?>"><i class="fa fa-user"></i> <span>Employees</span></a>
+			</li>
+		<?php endif; ?>
 		
-		<li class="<?php echo @$this->session->flashdata('is_shops_selected') ?>">
-          <a href="<?php echo base_url('/Shops') ?>"><i class="fa fa-building"></i> <span>Shops</span></a>
-        </li>
+		<?php if(@$this->session->userdata('is_biller')): ?>
+			<li class="<?php echo @$this->session->flashdata('is_billing_selected') ?>">
+			  <a href="<?php echo base_url('/Billing') ?>"><i class="fa fa-tasks"></i> <span>Billing</span></a>
+			</li>
+		<?php endif; ?>
 		
+		<?php if(@$this->session->userdata('is_admin')): ?>
 		<li class="<?php echo @$this->session->flashdata('is_items_selected') ?>">
           <a href="<?php echo base_url('/Items') ?>"><i class="fa fa-home"></i> <span>Items</span></a>
         </li>
+		<?php endif ?>
+		
+		
       </ul>
     </section>
   </aside>

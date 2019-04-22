@@ -20,11 +20,11 @@
 
   <div class="content-wrapper">
     <section class="content-header">
-      <h1>Shops <small>Admin Privilage</small>
+      <h1>Employees <small>Admin Privilage</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url("home") ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a><i class="fa fa-dashboard"></i> Shops</a></li>
+        <li><a href="<?php echo base_url("/Home") ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a><i class="fa fa-dashboard"></i> Employees</a></li>
       </ol>
     </section>
     <section class="content">
@@ -33,12 +33,12 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">All Pagoto Wagons</h3>
+              <h3 class="box-title">Employees Of Pagoto Wagons</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <div class="input-group-btn">
-                    <button onClick="addNewShop()" id="add_shop_btn" type="submit" class="btn btn-flat btn-success"><i class="fa fa-plus"></i> Add New Wagon</button>
+                    <button onClick="addNewEmployee()" id="add_shop_btn" type="submit" class="btn btn-flat btn-success"><i class="fa fa-plus"></i> Add New Employee</button>
                   </div>
                 </div>
               </div>
@@ -47,14 +47,16 @@
               <table class="table table-hover">
                 <tr>
                   <th>#</th>
-                  <th>Nick Name</th>
-                  <th>Place</th>
-                  <th>Start Date</th>
-                  <th>Shop Status</th>
+                  <th>Display Picture</th>
+                  <th>Employee ID</th>
+                  <th>Full Name</th>
+                  <th>Aadhar Number</th>
+                  <th>Employment Start Date</th>
+                  <th>Employment Status</th>
                   <th>Actions</th>
                 </tr>
 				<tr id="new_shop_tr">
-                  <form action="<?php echo base_url('shops/addshop') ?>" method="POST">
+                  <form action="<?php echo base_url('employees/addemployee') ?>" method="POST">
 				  <td></td>
                   <td><input type="text" name="name" value="<?php echo @$name ?>" class="form-control"></td>
                   <td><input type="text" name="place" value="<?php echo @$place ?>" class="form-control"></td>
@@ -66,30 +68,6 @@
 				  </td>
 				  </form>
                 </tr>
-                
-				<?php foreach($shops as $key=>$shop): ?>
-				<tr>
-				  <form action="<?php echo base_url('shops/update') ?>" method="POST">
-					  <td><?php echo $key+1 ?>.</td>
-					  <td><input type="text" name="name" id="<?php echo 'name_'.$shop['id']?>" readonly class="form-control shop_form" value="<?php echo $shop['name'] ?>"></td>
-					  <td><input type="text" name="place" id="<?php echo 'place_'.$shop['id']?>" readonly class="form-control shop_form" value="<?php echo $shop['place'] ?>"></td>
-					  <td><input type="date" name="start_date" id="<?php echo 'start_date_'.$shop['id']?>" readonly class="form-control shop_form" value="<?php echo $shop['start_date'] ?>"></td>
-					  <td>
-							<?php if($shop['is_open']): ?>
-								<button type="submit" name="action" value="status" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Open</button>
-							<?php else: ?>
-								<button type="submit" name="action" value="status" class="btn btn-flat btn-warning"><i class="fa fa-close"></i> Closed</button>
-							<?php endif; ?>
-					  </td>
-					  <td>
-						<button onClick="editShopData(<?php echo $shop['id'] ?>)" type="button" class="update_enable_btn btn btn-flat btn-info"><i class="fa fa-pencil"></i> Edit </button>
-						<button id="<?php echo 'update_save_btn_'.$shop['id'] ?>" type="submit" name="action" value="update" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>
-						<button id="<?php echo 'cancell_update_btn_'.$shop['id'] ?>" type="submit" name="action" value="cancell" class="cancell_update_btn btn btn-flat btn-danger"><i class="fa fa-close"></i></button>
-					  </td>
-					  <input type="hidden" name="shop_id" value="<?php echo $shop["id"] ?>" >
-				  </form>
-                </tr>
-				<?php endforeach; ?>
             </table>
             </div>
           </div>
@@ -113,7 +91,7 @@
 <script>
 	$("#new_shop_tr").hide();
 	var addNewShopFlag = false;
-	function addNewShop(){
+	function addNewEmployee(){
 		if(addNewShopFlag){
 			$("#new_shop_tr").hide();
 			$("#add_shop_btn").show();

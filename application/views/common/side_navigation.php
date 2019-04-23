@@ -22,6 +22,9 @@
 			<li class="<?php echo @$this->session->flashdata('is_employees_selected') ?>">
 			  <a href="<?php echo base_url('/Employees') ?>"><i class="fa fa-user"></i> <span>Employees</span></a>
 			</li>
+			<li class="<?php echo @$this->session->flashdata('is_roles_selected') ?>">
+			  <a href="<?php echo base_url('/Roles') ?>"><i class="fa fa-check"></i> <span>Roles</span></a>
+			</li>
 		<?php endif; ?>
 		
 		<?php if(@$this->session->userdata('is_biller')): ?>

@@ -34,9 +34,12 @@
 		<?php endif; ?>
 		
 		<?php if(@$this->session->userdata('is_admin')): ?>
-		<li class="<?php echo @$this->session->flashdata('is_items_selected') ?>">
-          <a href="<?php echo base_url('/Items') ?>"><i class="fa fa-home"></i> <span>Items</span></a>
-        </li>
+			<li class="<?php echo @$this->session->flashdata('is_icecreams_selected') ?>">
+			  <a href="<?php echo base_url('/Icecreams') ?>"><i class="fa fa-child"></i> <span>Icecreams</span></a>
+			</li>
+			<li class="<?php echo @$this->session->flashdata('is_toppings_selected') ?>">
+			  <a href="<?php echo base_url('/Toppings') ?>"><i class="fa fa-star"></i> <span>Toppings</span></a>
+			</li>
 		<?php endif ?>
 		
 		

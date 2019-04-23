@@ -23,7 +23,7 @@ class Employees extends CI_Controller {
 
 	public function index(){
 		$employees = $this->EmployeesModel->getAllEmployees();
-		$this->load->view('employees_list_all',array("employees"=>$employees,"post"=>$_POST));
+		$this->load->view('employees',array("employees"=>$employees,"post"=>$_POST));
 	}
 	
 	
@@ -54,7 +54,7 @@ class Employees extends CI_Controller {
 			}
 		}	
 		$employees = $this->EmployeesModel->getAllEmployees();
-		$this->load->view('employees_list_all',array("employees"=>$employees,"post"=>$_POST));
+		$this->load->view('employees',array("employees"=>$employees,"post"=>$_POST));
 	}
 	
 	

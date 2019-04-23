@@ -12,16 +12,19 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo base_url('assets/bootstrap/dist/img/user2-160x160.jpg') ?>" class="user-image" alt="User Image">
+              <img src="<?php echo base_url('assets/dp/'.@$this->session->userdata('user_dp')) ?>"" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo @$this->session->userdata('user_name') ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo base_url('assets/bootstrap/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url('assets/dp/'.@$this->session->userdata('user_dp')) ?>" class="img-circle" alt="User Image">
 
-                <p><?php echo @$this->session->userdata('user_name') ?><small><?php echo "Employee ID : ".@$this->session->userdata('employee_id') ?></small>
-                </p>
+                <p>
+				<?php echo @$this->session->userdata('user_name') ?>
+				<small><?php echo "Employee ID : ".@$this->session->userdata('employee_id') ?></small>
+				<small><?php echo "Aadhar Number : ".@$this->session->userdata('aadhar_number') ?></small>
+				</p>
               </li>
               <li class="user-footer">
                 <div class="pull-left">

@@ -40,9 +40,9 @@ class Employees extends CI_Controller {
 			$this->session->set_flashdata('warning_flash_message', 'Employement start date is mandatory');
 		}
 		else{
-			$_POST["username"] = $this->EmployeesModel->getNewEmployeeID();
+			$_POST["username"] = "P".$this->EmployeesModel->getNewEmployeeID();
 			$_POST["password"] = $this->generatePassword(6);
-			$_POST["employee_id"] = "P".$_POST["username"];
+			$_POST["employee_id"] = $_POST["username"];
 			$resp = $this->EmployeesModel->saveNewEmployee($_POST);
 			if($resp){
 				$this->session->set_flashdata('success_flash_message', 'New Employee Added Successfully');
@@ -66,5 +66,37 @@ class Employees extends CI_Controller {
 		}
 		return $key;
 	}
+	
+	
+	function update(){
+		if(@$_POST["action"] == "status"){
+			$this->EmployeesModel->updateEmployeeStatus($_POST["employee_id"]);
+		} else if(@$_POST["action"] == "update"){
+			$this->session->set_flashdata('employee_id',$_POST['employee_id']);
+			if($_POST['name'] == ""){
+				$this->session->set_flashdata('warning_flash_message', 'Employee name is mandatory');
+			}else if($_POST['mobile_number'] == ""){
+				$this->session->set_flashdata('warning_flash_message', 'Employee Mobile Number is mandatory');
+			}else if($_POST['aadhar_number'] == ""){
+				$this->session->set_flashdata('warning_flash_message', 'Employee Aadhar Number is mandatory');
+			}else if($_POST['employement_start_date'] == ""){
+				$this->session->set_flashdata('warning_flash_message', 'Employement start date is mandatory');
+			} else {			
+				$resp = $this->EmployeesModel->updateEmployeeData($_POST);
+				if($resp){
+					$this->session->set_flashdata('success_flash_message', 'Employee details updated successfully');
+					unset($_SESSION['employee_id']);
+					redirect("employees");
+					die();
+				} else {
+					$this->session->set_flashdata('error_flash_message', 'Employee with same aadhar number exists');
+				}	
+			}
+		}
+		redirect("employees");
+	}
+
+	
+	
 
 }

@@ -71,28 +71,33 @@
 				  </form>
                 </tr>
 				<?php foreach($employees as $key=>$employee ): ?>
-				<tr>
-                  <form action="<?php echo base_url('employees/UpdateEmployee') ?>" method="POST">
-				  <td><img src="<?php echo base_url("assets/dp/".$employee['dp']) ?>" width="40px" height="40px"></td>
-				  <td><input type="text" value="<?php echo $employee['employee_id'] ?>" class="employee_form form-control" style="width:100px!important"></td>
-                  <td><input type="text" name="name" value="<?php echo $employee['name'] ?>" class="employee_form form-control"></td>
-                  <td><input type="number" name="mobile_number" value="<?php echo $employee['mobile_number'] ?>" class="employee_form form-control"></td>
-                  <td><input type="text" name="aadhar_no" value="<?php echo $employee['aadhar_number'] ?>" class="employee_form form-control"></td>
-                  <td><input type="date" name="employement_start_date" value="<?php echo $employee['employement_start_date'] ?>" class="employee_form form-control"></td>
-                  <td>
-					<?php if($employee['retired']): ?>
-					<button type="submit" class="btn btn-flat btn-error"><i class="fa fa-close"></i> Retired </button>
-					<?php else: ?>
-					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Active </button>
-					<?php endif; ?>
-				  </td>
-                  <td>
-					<button type="submit" class="btn btn-flat btn-info"><i class="fa fa-pencil"></i></button>
-					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>
-					<button type="reset" class="btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
-				  </td>
-				  </form>
-                </tr>
+				<?php if($employee["employee_id"] != "MASTER"): ?>
+					<tr>
+					  <form action="<?php echo base_url('Employees/Update') ?>" method="POST">
+					  <td><img src="<?php echo base_url("assets/dp/".$employee['dp']) ?>" width="40px" height="40px"></td>
+					  <td><input readonly type="text" value="<?php echo $employee['employee_id'] ?>" class="employee_form form-control" style="width:100px!important"></td>
+					  <td><input readonly type="text" id="<?php echo "name_".$employee['id'] ?>" name="name" value="<?php echo $employee['name'] ?>" class="employee_form form-control"></td>
+					  <td><input readonly type="number" id="<?php echo "mobile_number_".$employee['id'] ?>" name="mobile_number" value="<?php echo $employee['mobile_number'] ?>" class="employee_form form-control"></td>
+					  <td><input readonly type="text" id="<?php echo "aadhar_number_".$employee['id'] ?>" name="aadhar_number" value="<?php echo $employee['aadhar_number'] ?>" class="employee_form form-control"></td>
+					  <td><input readonly type="date" id="<?php echo "employement_start_date_".$employee['id'] ?>"  name="employement_start_date" value="<?php echo $employee['employement_start_date'] ?>" class="employee_form form-control"></td>
+					  <td>
+						<?php if($employee['retired']): ?>
+						<button type="submit" name="action" value="status" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Retired </button>
+						<?php else: ?>
+						<button type="submit" name="action" value="status" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Active </button>
+						<?php endif; ?>
+					  </td>
+					  <td>
+					  <?php if(!$employee['retired']): ?>
+						<button onClick="editEmployeeData(<?php echo $employee['id'] ?>)" type="button" name="action" class="update_enable_btn btn btn-flat btn-info"><i class="fa fa-pencil"></i></button>
+						<button id="<?php echo 'update_save_btn_'.$employee['id'] ?>" type="submit" name="action" value="update" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i></button>
+						<button id="<?php echo 'cancell_update_btn_'.$employee['id'] ?>" type="submit" name="action" value="cancell" class="cancell_update_btn btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
+					  <?php endif; ?>
+					  </td>
+					  <input type="hidden" name="employee_id" value="<?php echo $employee['id'] ?>" >
+					  </form>
+					</tr>
+				<?php endif; ?>
 				<?php endforeach; ?>
             </table>
             </div>
@@ -133,29 +138,26 @@
 		addNewEmployee();
 	}
 	
-//====================================================	
-	
-	
-
-	
 	$(".update_save_btn").hide();
 	$(".cancell_update_btn").hide();
 	
-	if("<?php echo $this->session->flashdata('shop_id') ?>" != ""){
-		editShopData(<?php echo $this->session->flashdata('shop_id') ?>);
+	if("<?php echo $this->session->flashdata('employee_id') ?>" != ""){
+		editEmployeeData(<?php echo $this->session->flashdata('employee_id') ?>);
 	}
 	
-	function editShopData(id){
+	function editEmployeeData(id){
 		$("#update_save_btn_"+id).show();
 		$("#cancell_update_btn_"+id).show();
 		$(".update_enable_btn").hide();
 		
-		$("#name_"+id).removeClass("shop_form");
+		$("#name_"+id).removeClass("employee_form");
 		$("#name_"+id).removeAttr("readonly",false);
-		$("#place_"+id).removeClass("shop_form");
-		$("#place_"+id).removeAttr("readonly",false);
-		$("#start_date_"+id).removeClass("shop_form");
-		$("#start_date_"+id).removeAttr("readonly",false);
+		$("#mobile_number_"+id).removeClass("employee_form");
+		$("#mobile_number_"+id).removeAttr("readonly",false);
+		$("#aadhar_number_"+id).removeClass("employee_form");
+		$("#aadhar_number_"+id).removeAttr("readonly",false);
+		$("#employement_start_date_"+id).removeClass("employee_form");
+		$("#employement_start_date_"+id).removeAttr("readonly",false);
 	}
 	
 	

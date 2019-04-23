@@ -40,7 +40,7 @@
 						  <td>
 							  <select name="shop_id" class="form-control">
 								  <?php foreach($shops as $shop): ?>
-									<option value="<?php echo $shop["id"]?>"> <?php echo $shop["name"]." - ".$shop["place"]?> </option>
+									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
 								  <?php endforeach; ?>
 							  </select>
 						  </td>
@@ -51,6 +51,29 @@
 				  </table>
 			  </form>
 			  </h3>
+			  <div class="box-tools">
+                <div class="input-group" style="width: 280px;">
+                 <?php if(sizeof($users) > 0): ?>
+				 <form action="<?php echo base_url("Roles/AddEmployee") ?>" method="POST">
+				  <table>
+					  <tr>
+						  <td>
+							  <select name="user_id" class="form-control">
+								  <?php foreach($users as $user): ?>
+									<option value="<?php echo $user["id"]?>"> <?php echo $user["name"]." - ".$user["employee_id"]?> </option>
+								  <?php endforeach; ?>
+							  </select>
+						  </td>
+						  <td>
+							<input type="hidden" name="shop_id" value="<?php echo $this->session->flashdata('shop_id') ?>"> 
+							<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-plus"></i></button>
+						  </td>
+					  </tr>
+				  </table>
+			     </form>
+				 <?php endif; ?>
+                </div>
+              </div>
             </div>
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
@@ -61,9 +84,10 @@
                   <th>Mobile No</th>
                   <th>Admin Privilage</th>
                   <th>Billing Privilage</th>
+                  <th>Delete</th>
                 </tr>
 				<?php foreach($roles as $role): ?>
-					<form action="<?php base_url("Roles/Update")?>" method="POST">
+					<form action="<?php echo base_url("Roles/Update")?>" method="POST">
 						<tr>
 							<td><img src="<?php echo base_url("assets/dp/".$role["dp"])?>" width="40px" height="40px"></td>
 							<td><?php echo $role["employee_id"] ?></td>
@@ -73,15 +97,18 @@
 								<?php if($role["is_admin"]): ?>
 									<button type="submit" name="action" value="is_admin" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Yes </button>
 								<?php else: ?>
-									<button type="submit" name="action" value="is_admin" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> No </button>
+									<button type="submit" name="action" value="is_admin" class="btn btn-flat btn-warning"><i class="fa fa-close"></i> No </button>
 								<?php endif; ?>
 							</td>
 							<td>
 								<?php if($role["is_biller"]): ?>
 									<button type="submit" name="action" value="is_biller" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Yes </button>
 								<?php else: ?>
-									<button type="submit" name="action" value="is_biller" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> No </button>
+									<button type="submit" name="action" value="is_biller" class="btn btn-flat btn-warning"><i class="fa fa-close"></i> No </button>
 								<?php endif; ?>
+							</td>
+							<td>
+								<button type="submit" name="action" value="delete" class="btn btn-flat btn-danger"><i class="fa fa-trash"></i></button>
 							</td>
 						<tr>
 						<input type="hidden" name="role_id" value="<?php echo $role["id"] ?>">
@@ -108,56 +135,5 @@
 <script src="<?php echo base_url('assets/bootstrap/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/bootstrap/bower_components/fastclick/lib/fastclick.js') ?>"></script>
 <script src="<?php echo base_url('assets/bootstrap/dist/js/adminlte.min.js') ?>"></script>
-<script>
-	$("#new_shop_tr").hide();
-	var addNewEmpFlag = false;
-	function addNewEmployee(){
-		if(addNewEmpFlag){
-			$("#new_shop_tr").hide();
-			$("#add_shop_btn").show();
-			addNewEmpFlag = false;
-		}else{
-			$("#new_shop_tr").show();
-			$("#add_shop_btn").hide();
-			addNewEmpFlag = true;
-		}
-	}
-	
-	if("<?php echo $this->session->flashdata('display_form') ?>" == "1"){
-		addNewEmployee();
-	}
-	
-	$(".update_save_btn").hide();
-	$(".cancell_update_btn").hide();
-	
-	if("<?php echo $this->session->flashdata('employee_id') ?>" != ""){
-		editEmployeeData(<?php echo $this->session->flashdata('employee_id') ?>);
-	}
-	
-	function editEmployeeData(id){
-		$("#update_save_btn_"+id).show();
-		$("#cancell_update_btn_"+id).show();
-		$(".update_enable_btn").hide();
-		
-		$("#name_"+id).removeClass("employee_form");
-		$("#name_"+id).removeAttr("readonly",false);
-		$("#mobile_number_"+id).removeClass("employee_form");
-		$("#mobile_number_"+id).removeAttr("readonly",false);
-		$("#aadhar_number_"+id).removeClass("employee_form");
-		$("#aadhar_number_"+id).removeAttr("readonly",false);
-		$("#employement_start_date_"+id).removeClass("employee_form");
-		$("#employement_start_date_"+id).removeAttr("readonly",false);
-	}
-	
-	
-</script>
-
-<style>
-	.employee_form {
-		background-color:transparent!important;
-		border: 0px solid;
-	}
-</style>
-
 </body>
 </html>

@@ -33,14 +33,28 @@ class RolesModel extends CI_Model{
 		if(count($this->db->get_where('roles',array('user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']))->result_array()) > 0 ){
 			return false;	
 		}else{
+			$this->db->where('id', $data["user_id"]);
+			$this->db->update('users', array('is_biller' => true));
+			
 			$this->db->insert('roles', $data); 
 			return true;
 		}
 	}
 	
 	function deleteRole($role_id){
+		$this->db->select("user_id");
+		$user_id = $this->db->get_where("roles",array('id'=>$role_id))->result_array()[0]["user_id"];
+		
 		$this->db-> where('id', $role_id);
 		$this->db-> delete('roles');
+		
+		$count = $this->db->get_where('roles', array('user_id' => $user_id, "is_biller"=>true))->num_rows();
+		$this->db->where('id', $user_id);
+		$this->db->update('users', array('is_biller' => ($count > 0)));
+		
+		$count = $this->db->get_where('roles', array('user_id' => $user_id, "is_admin"=>true))->num_rows();
+		$this->db->where('id', $user_id);
+		$this->db->update('users', array('is_admin' => ($count > 0)));	
 	}
 	
 	
@@ -48,11 +62,27 @@ class RolesModel extends CI_Model{
 		if($is_biller){
 			$is_biller = $this->db->get_where('roles',array('id'=>$role_id))->result_array()[0]["is_biller"];
 			$this->db->where('id', $role_id);
-			$this->db->update('roles', array('is_biller' => (!$is_biller)));
+			$new_biller = ! $is_biller;
+			$this->db->update('roles', array('is_biller' => $new_biller));
+			
+			$this->db->select("user_id");
+			$user_id = $this->db->get_where("roles",array('id'=>$role_id))->result_array()[0]["user_id"];
+			$count = $this->db->get_where('roles', array('user_id' => $user_id, "is_biller"=>true))->num_rows();
+			
+			$this->db->where('id', $user_id);
+			$this->db->update('users', array('is_biller' => ($count > 0)));
 		} else {
 			$is_admin = $this->db->get_where('roles',array('id'=>$role_id))->result_array()[0]["is_admin"];
 			$this->db->where('id', $role_id);
-			$this->db->update('roles', array('is_admin' => (!$is_admin)));
+			$new_is_admin = !$is_admin;
+			$this->db->update('roles', array('is_admin' => $new_is_admin));
+			
+			$this->db->select("user_id");
+			$user_id = $this->db->get_where("roles",array('id'=>$role_id))->result_array()[0]["user_id"];
+			$count = $this->db->get_where('roles', array('user_id' => $user_id, "is_admin"=>true))->num_rows();
+			
+			$this->db->where('id', $user_id);
+			$this->db->update('users', array('is_admin' => ($count > 0)));
 		}
 		return true;
 	}

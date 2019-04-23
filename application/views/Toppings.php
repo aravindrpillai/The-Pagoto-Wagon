@@ -33,7 +33,24 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Toppings</h3>
+              <h3 class="box-title">
+			  <form action="<?php echo base_url("Toppings/Index") ?>" method="POST">
+				  <table>
+					  <tr>
+						  <td>
+							  <select name="shop_id" class="form-control">
+								  <?php foreach($shops as $shop): ?>
+									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
+								  <?php endforeach; ?>
+							  </select>
+						  </td>
+						  <td>
+							<button class="btn btn-flat btn-info"><i class="fa fa-search"></i></button>
+						  </td>
+					  </tr>
+				  </table>
+			  </form>
+			  </h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">

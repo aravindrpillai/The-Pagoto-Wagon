@@ -39,6 +39,8 @@ class Roles extends CI_Controller {
 			$shop_id = $shops[0]["id"];
 			$shop_roles = $this->RolesModel->getRolesOfShop($shop_id);
 		}
+		
+		unset($_SESSION["selected_shop_id_".$this->session->flashdata('shop_id')]);
 		$this->session->set_flashdata('shop_id',$shop_id);
 		$this->session->set_flashdata('selected_shop_id_'.$shop_id,"selected");
 		$users = $this->RolesModel->getAllEmployees($shop_id);

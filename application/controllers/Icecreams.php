@@ -20,9 +20,29 @@ class Icecreams extends CI_Controller {
 		 } 
 	}
 
-	public function index(){
-		$icecreams = $this->IcecreamsModel->getAllToppings();
-		$this->load->view('icecreams',array("icecreams"=>$icecreams));
+	public function index($shop_id = null){
+		$shops = $this->IcecreamsModel->getMyShops($this->session->userdata('user_id'));
+		if(count($shops) <= 0){
+			$this->session->set_flashdata('warning_flash_message',"You dont have admin privilage on any shop");
+			redirect("Home");
+			die();
+		}
+		
+		if($shop_id != null){
+			$shop_id = $shop_id;
+		}else if(@isset($_POST["shop_id"])){
+			$shop_id = $_POST["shop_id"];
+		}else{
+			$shop_id = $shops[0]["id"];
+		}
+		
+		unset($_SESSION["selected_shop_id_".$this->session->flashdata('shop_id')]);
+		$this->session->set_flashdata('shop_id',$shop_id);
+		$this->session->set_flashdata('selected_shop_id_'.$shop_id,"selected");
+		
+		$icecreams = $this->IcecreamsModel->getAllToppings($shop_id);
+		
+		$this->load->view('icecreams',array("icecreams"=>$icecreams,"shops"=>$shops));
 	}
 	
 	

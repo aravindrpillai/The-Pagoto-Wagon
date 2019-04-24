@@ -86,7 +86,7 @@
 						<button id="<?php echo 'update_save_btn_'.$shop['id'] ?>" type="submit" name="action" value="update" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save </button>
 						<button id="<?php echo 'cancell_update_btn_'.$shop['id'] ?>" type="submit" name="action" value="cancell" class="cancell_update_btn btn btn-flat btn-danger"><i class="fa fa-close"></i></button>
 					  </td>
-					  <input type="hidden" name="shop_id" value="<?php echo $shop["id"] ?>" >
+					  <input type="hidden" name="shop_shop_id" value="<?php echo $shop["id"] ?>" >
 				  </form>
                 </tr>
 				<?php endforeach; ?>
@@ -132,8 +132,8 @@
 	$(".update_save_btn").hide();
 	$(".cancell_update_btn").hide();
 	
-	if("<?php echo $this->session->flashdata('shop_id') ?>" != ""){
-		editShopData(<?php echo $this->session->flashdata('shop_id') ?>);
+	if("<?php echo $this->session->flashdata('shop_shop_id') ?>" != ""){
+		editShopData(<?php echo $this->session->flashdata('shop_shop_id') ?>);
 	}
 	
 	function editShopData(id){

@@ -98,7 +98,7 @@ class Icecreams extends CI_Controller {
 						$this->session->set_flashdata('success_flash_message',"Successfully added new Icecream");
 						redirect("Icecreams/Index/".$_POST["shop_id"]);
 					}else{
-						$this->session->set_flashdata('icecream_id',$_POST["shop_id"]);
+						$this->session->set_flashdata('icecream_id',$_POST["icecream_id"]);
 						$this->session->set_flashdata('warning_flash_message',"Failed to save data");
 						if($file_name != true){
 							unlink(realpath(APPPATH."/../assets/icecreams/".$_POST["image"]));

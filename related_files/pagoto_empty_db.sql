@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2019 at 02:09 PM
+-- Generation Time: Apr 24, 2019 at 05:05 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.4
 
@@ -25,6 +25,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cups`
+--
+
+CREATE TABLE `cups` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `shop_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `extra_charges`
+--
+
+CREATE TABLE `extra_charges` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `is_percentage` tinyint(1) NOT NULL DEFAULT '1',
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `shop_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `icecreams`
 --
 
@@ -32,8 +61,22 @@ CREATE TABLE `icecreams` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `image` varchar(100) NOT NULL,
-  `price` decimal(10,0) NOT NULL DEFAULT '0',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `description` varchar(200) DEFAULT NULL,
+  `shop_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `optional_charges`
+--
+
+CREATE TABLE `optional_charges` (
+  `id` int(11) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `is_percentage` tinyint(1) NOT NULL DEFAULT '1',
   `shop_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -50,16 +93,6 @@ CREATE TABLE `roles` (
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
   `is_biller` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `shop_id`, `user_id`, `is_admin`, `is_biller`) VALUES
-(1, 24, 2, 0, 1),
-(2, 9, 2, 1, 1),
-(3, 3, 2, 1, 1),
-(4, 17, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -94,17 +127,6 @@ CREATE TABLE `shops` (
   `start_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `shops`
---
-
-INSERT INTO `shops` (`id`, `name`, `place`, `is_open`, `start_date`) VALUES
-(3, 'Pagoto Wagon', 'Kawadiyaar', 1, '2019-02-01'),
-(4, 'Pagoto Wagon', 'Kothamangalam', 1, '2019-04-02'),
-(9, 'Pagoto Wagon', 'Angamaly', 1, '2019-04-03'),
-(17, 'Pagoto Wagon', 'Kottayam', 0, '2019-04-06'),
-(24, 'Pagoto Wagon', 'Yeroor', 1, '2019-04-04');
-
 -- --------------------------------------------------------
 
 --
@@ -115,7 +137,7 @@ CREATE TABLE `toppings` (
   `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `image` varchar(100) NOT NULL,
-  `price` decimal(10,0) NOT NULL DEFAULT '0',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `description` varchar(200) NOT NULL,
   `shop_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,20 +173,37 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `is_active`, `enable_always_logged_in`, `last_logged_in`, `employee_id`, `is_master`, `is_admin`, `is_biller`, `aadhar_number`, `employement_start_date`, `retired`, `emplyement_end_date`, `mobile_number`, `dp`) VALUES
-(1, 'Pagoto Master User', 'pagoto', 'pagoto', 0, 0, '2019-04-21 05:23:29', 'MASTER', 1, 0, 0, 'MASTER', '2019-04-01', 0, NULL, '0000000000', 'admin.jpg'),
-(2, 'Aravind R Pillai', 'aravind', 'aravind', 0, 0, '2019-04-21 00:00:00', 'P10002', 0, 1, 1, '4444-6666-7777-3333', '2018-04-01', 0, NULL, '9447020535', '02294c7c8712468b9592137f21ec6cc0.jpg'),
-(7, 'Yusuf Ali Chekkeri', 'P11003', '6ity8a', 0, 0, NULL, 'P11003', 0, 0, 1, '2343-4543-2322-0009', '2018-04-02', 0, NULL, '9990009999', 'user.jpg'),
-(9, 'Karthik Prakash', 'P11005', 'tzt87g', 0, 0, NULL, 'P11005', 0, 0, 1, '3333-4444-5555-6666', '2019-04-03', 0, NULL, '8787878787', 'user.jpg'),
-(10, 'Yeshu Yahoda', 'P11008', 's9va2s', 0, 0, NULL, 'P11008', 0, 0, 1, '3345-6654-3456-1001', '2019-04-02', 0, NULL, '9998889997', 'user.jpg');
+(1, 'Pagoto Master User', 'pagoto', 'pagoto', 0, 0, '2019-04-21 05:23:29', 'MASTER', 1, 0, 0, 'MASTER', '2019-04-01', 0, NULL, '0000000000', 'admin.jpg');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `cups`
+--
+ALTER TABLE `cups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `extra_charges`
+--
+ALTER TABLE `extra_charges`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
 -- Indexes for table `icecreams`
 --
 ALTER TABLE `icecreams`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `optional_charges`
+--
+ALTER TABLE `optional_charges`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
 
@@ -212,10 +251,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `cups`
+--
+ALTER TABLE `cups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `extra_charges`
+--
+ALTER TABLE `extra_charges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `icecreams`
 --
 ALTER TABLE `icecreams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `optional_charges`
+--
+ALTER TABLE `optional_charges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -239,7 +296,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `toppings`
 --
 ALTER TABLE `toppings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -252,10 +309,22 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `extra_charges`
+--
+ALTER TABLE `extra_charges`
+  ADD CONSTRAINT `extra_charges_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
 -- Constraints for table `icecreams`
 --
 ALTER TABLE `icecreams`
   ADD CONSTRAINT `icecreams_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `optional_charges`
+--
+ALTER TABLE `optional_charges`
+  ADD CONSTRAINT `optional_charges_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `roles`

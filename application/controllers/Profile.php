@@ -37,7 +37,7 @@ class Profile extends CI_Controller {
 			$mobile_no = $_POST["mobile_no"];
 			if($this->ProfileModel->updateBasicDetails($user_id,$name,$aadhar_no,$mobile_no)){
 				$this->session->set_userdata('user_name',$name);
-				$this->session->set_userdata('aadhar_number',$aadhar_number);
+				$this->session->set_userdata('aadhar_number',$aadhar_no);
 				$this->session->set_flashdata('success_flash_message', 'Basic details updated successfully');
 			}else{
 				$this->session->set_flashdata('warning_flash_message', 'Aadhar number already linked with other user');

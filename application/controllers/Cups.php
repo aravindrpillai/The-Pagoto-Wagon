@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Toppings extends CI_Controller {
+class Cups extends CI_Controller {
 	
 	public function __construct(){
 		 parent::__construct();
@@ -11,8 +11,8 @@ class Toppings extends CI_Controller {
 			redirect("Login");
 		 }else{
 			if(@$this->session->userdata('is_admin')){
-				$this->load->model('ToppingsModel');
-				$this->session->set_flashdata('is_toppings_selected',"active");
+				$this->load->model('CupsModel');
+				$this->session->set_flashdata('is_cups_selected',"active");
 			}else{
 				$this->session->set_flashdata('warning_flash_message',"Access Denied : You need elevated permission to access this page");
 				redirect("Home");
@@ -21,7 +21,7 @@ class Toppings extends CI_Controller {
 	}
 
 	public function index($shop_id = null,$POST=null){
-		$shops = $this->ToppingsModel->getMyShops($this->session->userdata('user_id'));
+		$shops = $this->CupsModel->getMyShops($this->session->userdata('user_id'));
 		if(count($shops) <= 0){
 			$this->session->set_flashdata('warning_flash_message',"You dont have admin privilage on any shop");
 			redirect("Home");
@@ -32,50 +32,50 @@ class Toppings extends CI_Controller {
 			$shop_id = $shop_id;
 		}else if(@isset($_POST["shop_id"])){
 			$shop_id = $_POST["shop_id"];
-		}else if($this->session->flashdata('toppings_shop_id') != null){
-			$shop_id = $this->session->flashdata('toppings_shop_id');
+		}else if($this->session->flashdata('cups_shop_id') != null){
+			$shop_id = $this->session->flashdata('cups_shop_id');
 		}else{
 			$shop_id = $shops[0]["id"];
 		}
 		
-		unset($_SESSION["toppings_selected_shop_id_".$this->session->flashdata('toppings_shop_id')]);
-		$this->session->set_flashdata('toppings_shop_id',$shop_id);
-		$this->session->set_flashdata('toppings_selected_shop_id_'.$shop_id,"selected");
+		unset($_SESSION["cups_selected_shop_id_".$this->session->flashdata('cups_shop_id')]);
+		$this->session->set_flashdata('cups_shop_id',$shop_id);
+		$this->session->set_flashdata('cups_selected_shop_id_'.$shop_id,"selected");
 		
-		$toppings = $this->ToppingsModel->getAllToppings($shop_id);
+		$cups = $this->CupsModel->getAllCups($shop_id);
 		
-		$this->load->view('toppings',array("toppings"=>$toppings,"shops"=>$shops,"post"=>$POST));
+		$this->load->view('cups',array("cups"=>$cups,"shops"=>$shops,"post"=>$POST));
 	}
 	
 	
 	
-	public function addTopping(){
+	public function addCup(){
 		
 		if($_POST["name"] == ""){
-			$this->session->set_flashdata('warning_flash_message',"Topping Name is mandatory");
-			$this->session->set_flashdata('toppings_display_form',true);
+			$this->session->set_flashdata('warning_flash_message',"Cup Name is mandatory");
+			$this->session->set_flashdata('cups_display_form',true);
 			$this->Index($_POST["shop_id"],$_POST);
 		}else if($_POST["price"] == ""){
-			$this->session->set_flashdata('warning_flash_message',"Topping Price is mandatory");
-			$this->session->set_flashdata('toppings_display_form',true);
+			$this->session->set_flashdata('warning_flash_message',"Cup Price is mandatory");
+			$this->session->set_flashdata('cups_display_form',true);
 			$this->Index($_POST["shop_id"],$_POST);
 		}else{
 			$file_name = $this->upload_image();
 			if($file_name != false){
 				$_POST["image"] =  $file_name;
-				if($this->ToppingsModel->addNewTopping($_POST)){
-					$this->session->set_flashdata('success_flash_message',"Successfully added new topping");
-					redirect("Toppings/Index/".$_POST["shop_id"]);
+				if($this->CupsModel->addNewCup($_POST)){
+					$this->session->set_flashdata('success_flash_message',"Successfully added new cup");
+					redirect("Cups/Index/".$_POST["shop_id"]);
 				}else{
-					$this->session->set_flashdata('toppings_display_form',true);
+					$this->session->set_flashdata('cups_display_form',true);
 					$this->session->set_flashdata('warning_flash_message',"Failed to save data");
-					if(file_exists(realpath(APPPATH."/../assets/toppings/".$_POST["image"]))){
-						unlink(realpath(APPPATH."/../assets/toppings/".$_POST["image"]));
+					if(file_exists(realpath(APPPATH."/../assets/cups/".$_POST["image"]))){
+						unlink(realpath(APPPATH."/../assets/cups/".$_POST["image"]));
 					}
 					$this->Index($_POST["shop_id"],$_POST);
 				}
 			}else{
-				$this->session->set_flashdata('toppings_display_form',true);
+				$this->session->set_flashdata('cups_display_form',true);
 				$this->Index($_POST["shop_id"],$_POST);
 			}
 		}
@@ -84,12 +84,12 @@ class Toppings extends CI_Controller {
 	public function update(){
 		if($_POST["action"] == "update"){
 			if($_POST["name"] == ""){
-				$this->session->set_flashdata('warning_flash_message',"Topping Name is mandatory");
-				$this->session->set_flashdata('topping_id',$_POST["topping_id"]);
+				$this->session->set_flashdata('warning_flash_message',"Cup Name is mandatory");
+				$this->session->set_flashdata('cup_id',$_POST["cup_id"]);
 				$this->Index($_POST["shop_id"],$_POST);
 			}else if($_POST["price"] == ""){
-				$this->session->set_flashdata('warning_flash_message',"Topping Price is mandatory");
-				$this->session->set_flashdata('topping_id',$_POST["topping_id"]);
+				$this->session->set_flashdata('warning_flash_message',"Cup Price is mandatory");
+				$this->session->set_flashdata('cup_id',$_POST["cup_id"]);
 				$this->Index($_POST["shop_id"],$_POST);
 			}else{
 				$file_name = true;
@@ -98,29 +98,29 @@ class Toppings extends CI_Controller {
 					$_POST["image"] =  $file_name;
 				}
 				if($file_name != false){
-					if($this->ToppingsModel->updateTopping($_POST)){
-						$this->session->set_flashdata('success_flash_message',"Successfully added new topping");
-						redirect("Toppings/Index/".$_POST["shop_id"]);
+					if($this->CupsModel->updateCup($_POST)){
+						$this->session->set_flashdata('success_flash_message',"Successfully updated cup details");
+						redirect("Cups/Index/".$_POST["shop_id"]);
 					}else{
-						$this->session->set_flashdata('topping_id',$_POST["topping_id"]);
-						$this->session->set_flashdata('warning_flash_message',"Failed to save data");
+						$this->session->set_flashdata('cup_id',$_POST["cup_id"]);
+						$this->session->set_flashdata('warning_flash_message',"Failed to update data");
 						if($file_name != true){
-							unlink(realpath(APPPATH."/../assets/toppings/".$_POST["image"]));
+							unlink(realpath(APPPATH."/../assets/cups/".$_POST["image"]));
 						}
 						$this->Index($_POST["shop_id"],$_POST);
 					}
 				}else{
-					$this->session->set_flashdata('toppings_display_form',true);
+					$this->session->set_flashdata('cups_display_form',true);
 					$this->Index($_POST["shop_id"],$_POST);
 				}
 			}
 		}
-		redirect("Toppings/Index/".$_POST["shop_id"]);
+		redirect("Cups/Index/".$_POST["shop_id"]);
 	}
 	
 	
 	private function upload_image(){
-        $config['upload_path'] = realpath(APPPATH."/../assets/toppings/");
+        $config['upload_path'] = realpath(APPPATH."/../assets/cups/");
 		$config['allowed_types'] = 'gif|jpg|GIF|JPG|png|PNG|jpeg|JPEG';
 		$config['max_size'] = '2048';
 		$config['encrypt_name'] = TRUE;

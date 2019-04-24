@@ -40,6 +40,15 @@
 			<li class="<?php echo @$this->session->flashdata('is_toppings_selected') ?>">
 			  <a href="<?php echo base_url('/Toppings') ?>"><i class="fa fa-star"></i> <span>Toppings</span></a>
 			</li>
+			<li class="<?php echo @$this->session->flashdata('is_cups_selected') ?>">
+			  <a href="<?php echo base_url('/Cups') ?>"><i class="fa fa-tablet"></i> <span>Cups</span></a>
+			</li>
+			<li class="<?php echo @$this->session->flashdata('is_extra_charges_selected') ?>">
+			  <a href="<?php echo base_url('/ExtraCharges') ?>"><i class="fa fa-inr"></i> <span>Extra Charges</span></a>
+			</li>
+			<li class="<?php echo @$this->session->flashdata('is_optional_charges_selected') ?>">
+			  <a href="<?php echo base_url('/OptionalCharges') ?>"><i class="fa fa-inr"></i> <span>Optional Charges</span></a>
+			</li>
 		<?php endif ?>
 		
 		

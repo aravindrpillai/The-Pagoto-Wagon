@@ -53,9 +53,9 @@ class Shops extends CI_Controller {
 	
 	function update(){
 		if(@$_POST["action"] == "status"){
-			$this->ShopsModel->updateShopStatus($_POST["shop_id"]);
+			$this->ShopsModel->updateShopStatus($_POST["shop_shop_id"]);
 		} else if(@$_POST["action"] == "update"){
-			$this->session->set_flashdata('shop_id',$_POST['shop_id']);
+			$this->session->set_flashdata('shop_shop_id',$_POST['shop_shop_id']);
 			if($_POST['name'] == ""){
 				$this->session->set_flashdata('warning_flash_message', 'Shop name is mandatory');
 			} else if($_POST['place'] == ""){
@@ -66,7 +66,7 @@ class Shops extends CI_Controller {
 				$resp = $this->ShopsModel->updateShopData($_POST);
 				if($resp){
 					$this->session->set_flashdata('success_flash_message', 'Shop details updated successfully');
-					unset($_SESSION['shop_id']);
+					unset($_SESSION['shop_shop_id']);
 					redirect("shops");
 					die();
 				} else {

@@ -15,10 +15,32 @@ class Billing extends CI_Controller {
 			$this->session->set_flashdata('is_billing_selected',"active");
 		 } 
 	}
-	
-	public function index(){
-		$this->load->view('billing');
+	public function index($shop_id = null){
+		$shops = $this->BillingModel->getMyShops($this->session->userdata('user_id'));
+		if(count($shops) <= 0){
+			$this->session->set_flashdata('warning_flash_message',"You dont have admin privilage on any shop");
+			redirect("Home");
+			die();
+		}
+		
+		if($shop_id != null){
+			$shop_id = $shop_id;
+		}else if(@isset($_POST["shop_id"])){
+			$shop_id = $_POST["shop_id"];
+		}else if($this->session->flashdata('billing_shop_id') != null){
+			$shop_id = $this->session->flashdata('billing_shop_id');
+		}else{
+			$shop_id = $shops[0]["id"];
+		}
+		
+		unset($_SESSION["billing_selected_shop_id_".$this->session->flashdata('billing_shop_id')]);
+		$this->session->set_flashdata('billing_shop_id',$shop_id);
+		$this->session->set_flashdata('billing_selected_shop_id_'.$shop_id,"selected");
+		
+		
+		$this->load->view('billing',array("shops"=>$shops));
 	}
+	
 	
 
 	 

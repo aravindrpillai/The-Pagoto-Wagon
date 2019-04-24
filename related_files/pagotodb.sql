@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2019 at 06:23 PM
+-- Generation Time: Apr 24, 2019 at 04:45 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -151,7 +151,11 @@ INSERT INTO `toppings` (`id`, `name`, `image`, `price`, `description`, `shop_id`
 (9, 'Chocolate Biscuit', '76456765456.png', '17', 'Chocolate Biscuit Description', 17),
 (10, 'Yellow Balls', '76543456789.png', '14', 'Yellow Balls Description', 17),
 (11, 'Banana Chips', '87654345674.png', '5', 'Banana Chips Description', 4),
-(12, 'Cotton Balls', '98765456788.png', '6', 'Cotton balls description', 17);
+(12, 'Cotton Balls', '98765456788.png', '6', 'Cotton balls description', 17),
+(14, 'Desert', 'f334d1ea4597a6ecdb641646bc2e080b.jpg', '234', 'some descosert', 3),
+(15, 'Lighthouse', 'd60b7337a26c127bba0e993d825035e6.jpg', '222', 'light desc', 3),
+(16, 'Hyderas', 'b289fead9e2fa4cbb4e30d0f048458ec.jpg', '22', 'Hyd desc', 3),
+(17, 'AAAA', '2c21998c5238f01818e52b39f527d5ba.jpg', '23', 'wertytrew', 17);
 
 -- --------------------------------------------------------
 
@@ -272,7 +276,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `toppings`
 --
 ALTER TABLE `toppings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -51,7 +51,7 @@ class Toppings extends CI_Controller {
 		
 		if($_POST["name"] == ""){
 			$this->session->set_flashdata('warning_flash_message',"Topping Name is mandatory");
-			$this->session->set_flashdata('toppings_display_form',true);
+			$this->session->set_flashdata('topping_id',$_POST["shop_id"]);
 			redirect("Toppings/Index/".$_POST["shop_id"]);
 		}else if($_POST["price"] == ""){
 			$this->session->set_flashdata('warning_flash_message',"Topping Price is mandatory");
@@ -80,13 +80,46 @@ class Toppings extends CI_Controller {
 	}
 	
 	public function update(){
-		redirect("Toppings");
+		if($_POST["action"] == "update"){
+			if($_POST["name"] == ""){
+				$this->session->set_flashdata('warning_flash_message',"Topping Name is mandatory");
+				$this->session->set_flashdata('topping_id',$_POST["topping_id"]);
+				$this->Index($_POST["shop_id"],$_POST);
+			}else if($_POST["price"] == ""){
+				$this->session->set_flashdata('warning_flash_message',"Topping Price is mandatory");
+				$this->session->set_flashdata('topping_id',$_POST["topping_id"]);
+				$this->Index($_POST["shop_id"],$_POST);
+			}else{
+				$file_name = true;
+				if (file_exists($_FILES['image']['tmp_name'])){
+					$file_name = $this->upload_image();
+					$_POST["image"] =  $file_name;
+				}
+				if($file_name != false){
+					if($this->ToppingsModel->updateTopping($_POST)){
+						$this->session->set_flashdata('success_flash_message',"Successfully added new topping");
+						redirect("Toppings/Index/".$_POST["shop_id"]);
+					}else{
+						$this->session->set_flashdata('topping_id',$_POST["shop_id"]);
+						$this->session->set_flashdata('warning_flash_message',"Failed to save data");
+						if($file_name != true){
+							unlink(realpath(APPPATH."/../assets/toppings/".$_POST["image"]));
+						}
+						$this->Index($_POST["shop_id"],$_POST);
+					}
+				}else{
+					$this->session->set_flashdata('toppings_display_form',true);
+					$this->Index($_POST["shop_id"],$_POST);
+				}
+			}
+		}
+		redirect("Toppings/Index/".$_POST["shop_id"]);
 	}
 	
 	
 	private function upload_image(){
         $config['upload_path'] = realpath(APPPATH."/../assets/toppings/");
-		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['allowed_types'] = 'gif|jpg|GIF|JPG|png|PNG|jpeg|JPEG';
 		$config['max_size'] = '2048';
 		$config['encrypt_name'] = TRUE;
 		$this->load->library('upload', $config);

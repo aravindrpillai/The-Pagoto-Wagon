@@ -84,7 +84,7 @@
                 </tr>
 				<?php foreach($toppings as $key=>$data ): ?>
 					<tr>
-					  <form action="<?php echo base_url('Toppings/Update') ?>" method="POST">
+					  <form action="<?php echo base_url('Toppings/Update') ?>" method="POST" enctype="multipart/form-data">
 					  <td>
 						<img id="<?php echo 'old_image_'.$data["id"] ?>" src="<?php echo base_url("assets/toppings/".$data['image']) ?>" width="40px" height="40px">
 						<input id="<?php echo 'new_image_'.$data["id"] ?>" type="file" name="image" class="image_form form-control">
@@ -94,9 +94,11 @@
 					  <td><input readonly type="text" name="description" id="<?php echo 'description_'.$data['id'] ?>" value="<?php echo $data['description'] ?>" class="toppings_form form-control"></td>
 					  <td>
 						<button type="button" onClick="editToppingData('<?php echo $data["id"] ?>')" class="update_enable_btn btn btn-flat btn-info"><i class="fa fa-pencil"></i></button>
-						<button type="submit" id="<?php echo 'update_save_btn_'.$data["id"] ?>" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>					
-						<button type="submit" id="<?php echo 'cancell_update_btn_'.$data["id"] ?>" class="cancell_update_btn btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
+						<button type="submit" name="action" value="update" id="<?php echo 'update_save_btn_'.$data["id"] ?>" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>					
+						<button type="submit" name="action" value="reset" id="<?php echo 'cancell_update_btn_'.$data["id"] ?>" class="cancell_update_btn btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
 					  </td>
+					  <input type="hidden" name="topping_id" value="<?php echo $data["id"] ?>" >
+					  <input type="hidden" name="shop_id" value="<?php echo $data["shop_id"] ?>" >
 					  </form>
 					</tr>
 				<?php endforeach; ?>

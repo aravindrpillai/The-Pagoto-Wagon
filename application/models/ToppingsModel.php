@@ -21,6 +21,25 @@ class ToppingsModel extends CI_Model{
 		return true;
 	}
 
+	function updateTopping($data){
+		if(@$data["image"] != ""){
+			$old_image_name = $this->db->get_where("toppings",array("id"=>$data["topping_id"]))->result_array()[0]["image"];
+			unlink(realpath(APPPATH."/../assets/toppings/".$old_image_name));
+			$this->db->where('id', $data["topping_id"]);
+			$this->db->update('toppings', array('name' => $data["name"],'price' => $data["price"],'image' => $data["image"],'description' => $data["description"]));
+		} else {
+			$this->db->where('id', $data["topping_id"]);
+			$this->db->update('toppings', array('name' => $data["name"],'price' => $data["price"],'description' => $data["description"]));
+		}
+		
+		
+		
+		
+		
+		
+		return true;
+	}
+
 }
 
 ?>

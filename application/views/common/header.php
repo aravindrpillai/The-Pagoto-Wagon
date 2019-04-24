@@ -16,7 +16,6 @@
               <span class="hidden-xs"><?php echo @$this->session->userdata('user_name') ?></span>
             </a>
             <ul class="dropdown-menu">
-              <!-- User image -->
               <li class="user-header">
                 <img src="<?php echo base_url('assets/dp/'.@$this->session->userdata('user_dp')) ?>" class="img-circle" alt="User Image">
 
@@ -28,7 +27,7 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="<?php echo base_url('/Profile') ?>" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="<?php echo base_url('/Login/Logout') ?>" class="btn btn-default btn-flat">Sign out</a>

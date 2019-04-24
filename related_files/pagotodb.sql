@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2019 at 11:20 AM
+-- Generation Time: Apr 24, 2019 at 02:09 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.4
 
@@ -152,7 +152,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `is_active`, `enable_always_logged_in`, `last_logged_in`, `employee_id`, `is_master`, `is_admin`, `is_biller`, `aadhar_number`, `employement_start_date`, `retired`, `emplyement_end_date`, `mobile_number`, `dp`) VALUES
 (1, 'Pagoto Master User', 'pagoto', 'pagoto', 0, 0, '2019-04-21 05:23:29', 'MASTER', 1, 0, 0, 'MASTER', '2019-04-01', 0, NULL, '0000000000', 'admin.jpg'),
-(2, 'Aravind R Pillai', 'aravind', 'aravind', 0, 0, '2019-04-21 00:00:00', 'P10002', 0, 1, 1, '3345-6654-3456-0001', '2018-04-01', 0, NULL, '9447020535', '2345678876533456787654.jpg'),
+(2, 'Aravind R Pillai', 'aravind', 'aravind', 0, 0, '2019-04-21 00:00:00', 'P10002', 0, 1, 1, '4444-6666-7777-3333', '2018-04-01', 0, NULL, '9447020535', '02294c7c8712468b9592137f21ec6cc0.jpg'),
 (7, 'Yusuf Ali Chekkeri', 'P11003', '6ity8a', 0, 0, NULL, 'P11003', 0, 0, 1, '2343-4543-2322-0009', '2018-04-02', 0, NULL, '9990009999', 'user.jpg'),
 (9, 'Karthik Prakash', 'P11005', 'tzt87g', 0, 0, NULL, 'P11005', 0, 0, 1, '3333-4444-5555-6666', '2019-04-03', 0, NULL, '8787878787', 'user.jpg'),
 (10, 'Yeshu Yahoda', 'P11008', 's9va2s', 0, 0, NULL, 'P11008', 0, 0, 1, '3345-6654-3456-1001', '2019-04-02', 0, NULL, '9998889997', 'user.jpg');

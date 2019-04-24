@@ -36,6 +36,8 @@ class Profile extends CI_Controller {
 			$aadhar_no = $_POST["aadhar_no"];
 			$mobile_no = $_POST["mobile_no"];
 			if($this->ProfileModel->updateBasicDetails($user_id,$name,$aadhar_no,$mobile_no)){
+				$this->session->set_userdata('user_name',$name);
+				$this->session->set_userdata('aadhar_number',$aadhar_number);
 				$this->session->set_flashdata('success_flash_message', 'Basic details updated successfully');
 			}else{
 				$this->session->set_flashdata('warning_flash_message', 'Aadhar number already linked with other user');
@@ -60,6 +62,7 @@ class Profile extends CI_Controller {
 		}
 		$user_id = $this->session->userdata('user_id');
 		if($this->ProfileModel->updateDisplayPicture($user_id,$file_name)){
+			$this->session->set_userdata('user_dp',$file_name);
 			$this->session->set_flashdata('success_flash_message', 'Display Picture updated successfully');
 		}else{
 			$this->session->set_flashdata('warning_flash_message', 'Failed to update profile picture');

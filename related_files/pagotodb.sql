@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2019 at 04:45 AM
+-- Generation Time: Apr 24, 2019 at 11:20 AM
 -- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- PHP Version: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -36,21 +36,6 @@ CREATE TABLE `icecreams` (
   `description` varchar(200) DEFAULT NULL,
   `shop_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `icecreams`
---
-
-INSERT INTO `icecreams` (`id`, `name`, `image`, `price`, `description`, `shop_id`) VALUES
-(1, 'White Forest', '2345432123.png', '50', 'White Forest Description', 24),
-(2, 'Mango Cream', '2345654123.png', '40', 'Mango Description', 24),
-(3, 'Soapy Cream', '2345676545.png', '35', 'Soapy Cream', 24),
-(4, 'Brownie Brown', '2565432345.png', '60', 'Brownie Brown', 24),
-(5, 'Green Apple', '3456543453.png', '80', 'Green Apple Description', 3),
-(6, 'Strawberry Cream', '3456765434.png', '100', 'Strawberry Cream Description', 3),
-(7, 'Ocean Cream', '5463748576.png', '20', 'Ocean Cream Description', 9),
-(8, 'Jackfruit Cream', '5676543253.png', '25', 'Jackfruit cream', 9),
-(9, 'Grapes Cream', '6543234543.png', '45', 'Grapes Description', 9);
 
 -- --------------------------------------------------------
 
@@ -134,28 +119,6 @@ CREATE TABLE `toppings` (
   `description` varchar(200) NOT NULL,
   `shop_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `toppings`
---
-
-INSERT INTO `toppings` (`id`, `name`, `image`, `price`, `description`, `shop_id`) VALUES
-(1, 'Crispy Horlicks', '23454321234.png', '15', 'Crispy Horlics Description', 17),
-(2, 'Oreo', '23456787689.png', '20', 'Oreo', 9),
-(3, 'Gems', '32345432345.png', '10', 'Gems Description', 4),
-(4, 'Brown Chocolate', '34554323454.png', '18', 'Brown Chocolate Description', 9),
-(5, 'Sugar Sprinkle', '39872738483.png', '5', 'Sugar Sprinkle Description', 9),
-(6, 'Colour Rock', '45678765678.png', '4', 'Colour Rock Description', 17),
-(7, 'Tablets', '65432345654.png', '12', 'Tablets Description', 4),
-(8, 'Jelly Beans', '74654738384.png', '9', 'Jelly Beans Description', 4),
-(9, 'Chocolate Biscuit', '76456765456.png', '17', 'Chocolate Biscuit Description', 17),
-(10, 'Yellow Balls', '76543456789.png', '14', 'Yellow Balls Description', 17),
-(11, 'Banana Chips', '87654345674.png', '5', 'Banana Chips Description', 4),
-(12, 'Cotton Balls', '98765456788.png', '6', 'Cotton balls description', 17),
-(14, 'Desert', 'f334d1ea4597a6ecdb641646bc2e080b.jpg', '234', 'some descosert', 3),
-(15, 'Lighthouse', 'd60b7337a26c127bba0e993d825035e6.jpg', '222', 'light desc', 3),
-(16, 'Hyderas', 'b289fead9e2fa4cbb4e30d0f048458ec.jpg', '22', 'Hyd desc', 3),
-(17, 'AAAA', '2c21998c5238f01818e52b39f527d5ba.jpg', '23', 'wertytrew', 17);
 
 -- --------------------------------------------------------
 
@@ -252,7 +215,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `icecreams`
 --
 ALTER TABLE `icecreams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -276,7 +239,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `toppings`
 --
 ALTER TABLE `toppings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

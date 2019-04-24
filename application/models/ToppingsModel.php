@@ -31,12 +31,6 @@ class ToppingsModel extends CI_Model{
 			$this->db->where('id', $data["topping_id"]);
 			$this->db->update('toppings', array('name' => $data["name"],'price' => $data["price"],'description' => $data["description"]));
 		}
-		
-		
-		
-		
-		
-		
 		return true;
 	}
 

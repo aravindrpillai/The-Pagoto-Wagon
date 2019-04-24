@@ -32,11 +32,13 @@ class Toppings extends CI_Controller {
 			$shop_id = $shop_id;
 		}else if(@isset($_POST["shop_id"])){
 			$shop_id = $_POST["shop_id"];
+		}else if($this->session->flashdata('toppings_shop_id') != null){
+			$shop_id = $this->session->flashdata('toppings_shop_id');
 		}else{
 			$shop_id = $shops[0]["id"];
 		}
 		
-		unset($_SESSION["selected_shop_id_".$this->session->flashdata('shop_id')]);
+		unset($_SESSION["toppings_selected_shop_id_".$this->session->flashdata('toppings_shop_id')]);
 		$this->session->set_flashdata('toppings_shop_id',$shop_id);
 		$this->session->set_flashdata('toppings_selected_shop_id_'.$shop_id,"selected");
 		
@@ -51,12 +53,12 @@ class Toppings extends CI_Controller {
 		
 		if($_POST["name"] == ""){
 			$this->session->set_flashdata('warning_flash_message',"Topping Name is mandatory");
-			$this->session->set_flashdata('topping_id',$_POST["shop_id"]);
-			redirect("Toppings/Index/".$_POST["shop_id"]);
+			$this->session->set_flashdata('toppings_display_form',true);
+			$this->Index($_POST["shop_id"],$_POST);
 		}else if($_POST["price"] == ""){
 			$this->session->set_flashdata('warning_flash_message',"Topping Price is mandatory");
 			$this->session->set_flashdata('toppings_display_form',true);
-			redirect("Toppings/Index/".$_POST["shop_id"]);
+			$this->Index($_POST["shop_id"],$_POST);
 		}else{
 			$file_name = $this->upload_image();
 			if($file_name != false){

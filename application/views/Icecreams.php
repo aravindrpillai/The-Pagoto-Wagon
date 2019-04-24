@@ -40,7 +40,7 @@
 						  <td>
 							  <select name="shop_id" class="form-control">
 								  <?php foreach($shops as $shop): ?>
-									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
+									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('icecream_selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
 								  <?php endforeach; ?>
 							  </select>
 						  </td>
@@ -70,7 +70,7 @@
                   <th>Actions</th>
                 </tr>
 				<tr id="new_shop_tr">
-                  <form action="<?php echo base_url('Icecreams/addIcecream') ?>" method="POST">
+                  <form action="<?php echo base_url('Icecreams/AddIcecream') ?>" method="POST" enctype="multipart/form-data">
 				  <td><input type="file" name="image" class="form-control"></td>
 				  <td><input type="text" name="name" value="<?php echo @$post["name"] ?>" class="form-control"></td>
                   <td><input type="text" name="price" value="<?php echo @$post["price"] ?>" class="form-control"></td>
@@ -79,11 +79,12 @@
 					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
 					<button type="reset" class="btn btn-flat btn-warning" onClick="addNewIcecream()"><i class="fa fa-close"></i></button>
 				  </td>
+				  <input type="hidden" name="shop_id" value="<?php echo $this->session->flashdata('icecream_shop_id') ?>" >
 				  </form>
                 </tr>
 				<?php foreach($icecreams as $key=>$data ): ?>
 					<tr>
-					  <form action="<?php echo base_url('Icecreams/Update') ?>" method="POST">
+					  <form action="<?php echo base_url('Icecreams/Update') ?>" method="POST" enctype="multipart/form-data">
 					  <td>
 						<img id="<?php echo 'old_image_'.$data["id"] ?>" src="<?php echo base_url("assets/icecreams/".$data['image']) ?>" width="40px" height="40px">
 						<input id="<?php echo 'new_image_'.$data["id"] ?>" type="file" name="image" class="image_form form-control">
@@ -93,9 +94,11 @@
 					  <td><input readonly type="text" name="description" id="<?php echo 'description_'.$data['id'] ?>" value="<?php echo $data['description'] ?>" class="icecreams_form form-control"></td>
 					  <td>
 						<button type="button" onClick="editIcecreamData('<?php echo $data["id"] ?>')" class="update_enable_btn btn btn-flat btn-info"><i class="fa fa-pencil"></i></button>
-						<button type="submit" id="<?php echo 'update_save_btn_'.$data["id"] ?>" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>					
-						<button type="submit" id="<?php echo 'cancell_update_btn_'.$data["id"] ?>" class="cancell_update_btn btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
+						<button type="submit" name="action" value="update" id="<?php echo 'update_save_btn_'.$data["id"] ?>" class="update_save_btn btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>					
+						<button type="submit" name="action" value="reset" id="<?php echo 'cancell_update_btn_'.$data["id"] ?>" class="cancell_update_btn btn btn-flat btn-warning"><i class="fa fa-close"></i></button>
 					  </td>
+					   <input type="hidden" name="icecream_id" value="<?php echo $data["id"] ?>" >
+					  <input type="hidden" name="shop_id" value="<?php echo $data["shop_id"] ?>" >
 					  </form>
 					</tr>
 				<?php endforeach; ?>
@@ -134,7 +137,7 @@
 		}
 	}
 	
-	if("<?php echo $this->session->flashdata('display_form') ?>" == "1"){
+	if("<?php echo $this->session->flashdata('icecreams_display_form') ?>" == "1"){
 		addNewIcecream();
 	}
 	

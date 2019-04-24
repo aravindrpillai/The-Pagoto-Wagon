@@ -2,7 +2,7 @@
 
 class IcecreamsModel extends CI_Model{
 
-    function getAllToppings($shop_id){
+    function getAllIcecreams($shop_id){
 		return $this->db->get_where("icecreams",array("shop_id"=>$shop_id))->result_array();
     }
 	
@@ -16,6 +16,24 @@ class IcecreamsModel extends CI_Model{
 		return $return;
 	}
 
+
+	function addNewIcecream($data){
+		$this->db->insert('icecreams', $data); 
+		return true;
+	}
+
+	function updateIcecream($data){
+		if(@$data["image"] != ""){
+			$old_image_name = $this->db->get_where("icecreams",array("id"=>$data["icecream_id"]))->result_array()[0]["image"];
+			unlink(realpath(APPPATH."/../assets/icecreams/".$old_image_name));
+			$this->db->where('id', $data["icecream_id"]);
+			$this->db->update('icecreams', array('name' => $data["name"],'price' => $data["price"],'image' => $data["image"],'description' => $data["description"]));
+		} else {
+			$this->db->where('id', $data["icecream_id"]);
+			$this->db->update('icecreams', array('name' => $data["name"],'price' => $data["price"],'description' => $data["description"]));
+		}
+		return true;
+	}
 
 }
 

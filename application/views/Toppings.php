@@ -40,7 +40,7 @@
 						  <td>
 							  <select name="shop_id" class="form-control">
 								  <?php foreach($shops as $shop): ?>
-									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
+									<option value="<?php echo $shop["id"]?>" <?php echo $this->session->flashdata('toppings_selected_shop_id_'.$shop["id"]) ?> > <?php echo $shop["name"]." - ".$shop["place"]?> </option>
 								  <?php endforeach; ?>
 							  </select>
 						  </td>
@@ -70,7 +70,7 @@
                   <th>Actions</th>
                 </tr>
 				<tr id="new_shop_tr">
-                  <form action="<?php echo base_url('Toppings/addTopping') ?>" method="POST">
+                  <form action="<?php echo base_url('Toppings/addTopping') ?>" method="POST" enctype="multipart/form-data">
 				  <td><input type="file" name="image" class="form-control"></td>
 				  <td><input type="text" name="name" value="<?php echo @$post["name"] ?>" class="form-control"></td>
                   <td><input type="text" name="price" value="<?php echo @$post["price"] ?>" class="form-control"></td>
@@ -79,6 +79,7 @@
 					<button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
 					<button type="reset" class="btn btn-flat btn-warning" onClick="addNewTopping()"><i class="fa fa-close"></i></button>
 				  </td>
+				  <input type="hidden" name="shop_id" value="<?php echo $this->session->flashdata('toppings_shop_id') ?>" >
 				  </form>
                 </tr>
 				<?php foreach($toppings as $key=>$data ): ?>
@@ -134,7 +135,7 @@
 		}
 	}
 	
-	if("<?php echo $this->session->flashdata('display_form') ?>" == "1"){
+	if("<?php echo $this->session->flashdata('toppings_display_form') ?>" == "1"){
 		addNewTopping();
 	}
 	

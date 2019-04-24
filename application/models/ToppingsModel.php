@@ -15,6 +15,11 @@ class ToppingsModel extends CI_Model{
 		$return = $this->db->get()->result_array();
 		return $return;
 	}
+	
+	function addNewTopping($data){
+		$this->db->insert('toppings', $data); 
+		return true;
+	}
 
 }
 

@@ -63,7 +63,8 @@
 
                                         <div class="box-body table-responsive no-padding">
                                             <table class="table table-hover">
-                                                <tr>
+                                                <thead>
+												<tr>
                                                     <th width="2%">#</th>
                                                     <th width="32%">IceCream</th>
                                                     <th width="32%">Topping</th>
@@ -71,48 +72,13 @@
                                                     <th width="3%">Quantity</th>
                                                     <th width="10%">Total</th>
                                                 </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select class="form-control select2" style="width: 100%;">
-                                                                <?php foreach($icecreams as $data): ?>
-                                                                    <option>
-                                                                        <?php echo $data["name"]." - ".$data["price"] ?>
-                                                                    </option>
-                                                                    <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select class="form-control select2" style="width: 100%;">
-                                                                <?php foreach($toppings as $data): ?>
-                                                                    <option>
-                                                                        <?php echo $data["name"]." - ".$data["price"] ?>
-                                                                    </option>
-                                                                    <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select class="form-control select2" style="width: 100%;">
-                                                                <?php foreach($cups as $data): ?>
-                                                                    <option>
-                                                                        <?php echo $data["name"]." - ".$data["price"] ?>
-                                                                    </option>
-                                                                    <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" name="quantity" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" readonly value="Rs. 300" class="form-control">
-                                                    </td>
-                                                </tr>
+												</thead>
+												<tbody id="tr_data">
+												</tbody>
+                                            	<thead>
+												<tr><td></td><td></td><td><button onClick="addNewItem()" class="btn btn-flat btn-info"> <i class="fa fa-plus"></i> Add New Item</button> </td>
+												<td></td><td><b>Net Amt</b></td><td><input id="items_total" type="text" value="0" readonly onClick="generateNetItemsAmount()" class="form-control"></td></tr>
+												</thead>
                                             </table>
                                         </div>
                                     </div>
@@ -314,6 +280,112 @@
                 checkboxClass: 'icheckbox_minimal-blue'
             })
         })
+		
+		var cups = [];
+		<?php foreach($cups as $data): ?>
+			cups.push({
+				id : "<?php echo $data["id"] ?>",
+				name : "<?php echo $data["name"] ?>",
+				price : "<?php echo $data["price"] ?>"
+			});
+		<?php endforeach; ?>
+		
+		
+		var icecreams = [];
+		<?php foreach($icecreams as $data): ?>
+			icecreams.push({
+				id : "<?php echo $data["id"] ?>",
+				name : "<?php echo $data["name"] ?>",
+				price : "<?php echo $data["price"] ?>"
+			});
+		<?php endforeach; ?>
+		
+		var toppings = [];
+		<?php foreach($toppings as $data): ?>
+			toppings.push({
+				id : "<?php echo $data["id"] ?>",
+				name : "<?php echo $data["name"] ?>",
+				price : "<?php echo $data["price"] ?>"
+			});
+		<?php endforeach; ?>
+		
+		items_array = [];
+		
+		var tr_index = 1;
+		function addNewItem(){
+			items_array.push(tr_index);
+			var tr_content = '<tr id="tr_'+tr_index+'"><td><i id="index_'+tr_index+'"></i><br><i onClick="removeItem('+tr_index+')" style="color:red" class="fa fa-trash"><i></td>';
+            tr_content += '<td><div class="form-group"><select id="icecream_'+tr_index+'" onChange="generateItemCost('+tr_index+')" class="form-control select2" style="width: 100%;">';
+			$.each(icecreams, function(index,data) {             
+				tr_content += '<option value='+index+'>'+data["name"]+' - Rs.'+data["price"]+'</option>';
+			}); 
+			tr_content += '</select></div></td>';
+			
+			tr_content += '<td><div class="form-group"><select id="topping_'+tr_index+'" onChange="generateItemCost('+tr_index+')" class="form-control select2" style="width: 100%;">';
+            $.each(toppings, function(index,data) {             
+				tr_content += '<option value='+index+'>'+data["name"]+' - Rs.'+data["price"]+'</option>';
+			}); 
+            tr_content += '</select></div></td>';
+			
+			
+			tr_content += '<td><div class="form-group"><select id="cup_'+tr_index+'" onChange="generateItemCost('+tr_index+')" class="form-control select2" style="width: 100%;">';
+            $.each(cups, function(index,data) {             
+				tr_content += '<option value='+index+'>'+data["name"]+' - Rs.'+data["price"]+'</option>';
+			}); 
+            tr_content += '</select></div></td>';
+			
+			tr_content += '<td><input id="quantity_'+tr_index+'" onChange="generateItemCost('+tr_index+')" type="number" value="1" name="quantity" class="form-control"></td>';
+			tr_content += '<td><input id="row_amount_'+tr_index+'" type="text" onClick="generateItemCost('+tr_index+')" readonly value="Rs. 300" class="form-control"></td></tr>';
+			
+			$("#tr_data").append(tr_content);
+			generateItemCost(tr_index);
+			tr_index += 1;
+			generateIndex();
+		}
+		
+		
+		function removeItem(tr_id){
+			items_array.splice( $.inArray(tr_id, items_array), 1 );
+			$("#tr_"+tr_id).remove();
+			generateNetItemsAmount();
+			generateIndex();
+		}
+		
+		
+		function generateIndex(){
+			var i = 1;
+			 $.each(items_array, function(key,value) {             
+			 	$("#index_"+value).html(i++);
+			}); 
+		}
+		
+		function generateItemCost(tr_id){
+			var sel_icecream_index = $("#icecream_"+tr_id).val();
+			var sel_topping_index = $("#topping_"+tr_id).val();
+			var sel_cup_index = $("#cup_"+tr_id).val();
+			
+			var sel_icecream_price = parseInt(icecreams[sel_icecream_index]["price"]);
+			var sel_topping_price = parseInt(toppings[sel_topping_index]["price"]);
+			var sel_cup_price = parseInt(cups[sel_cup_index]["price"]);
+			
+			var quantity = parseInt($("#quantity_"+tr_id).val());
+			if(quantity <= 0){
+				$("#quantity_"+tr_id).val(1);
+				quantity = 1;
+			}
+			
+			var row_cost = ((sel_icecream_price+sel_topping_price+sel_cup_price)*quantity);
+			$("#row_amount_"+tr_id).val(row_cost);
+			generateNetItemsAmount();
+		}
+		
+		function generateNetItemsAmount(){
+			var items_total = 0;
+			$.each(items_array, function(index,each_tr_id) {             
+				items_total += parseInt($("#row_amount_"+each_tr_id).val());
+			});
+			$("#items_total").val(items_total);
+		}
     </script>
 
 </body>

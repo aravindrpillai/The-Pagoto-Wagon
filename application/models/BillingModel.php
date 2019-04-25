@@ -13,6 +13,22 @@ class BillingModel extends CI_Model{
 		return $return;
 	}
 	
+	function getOptionalItems($shop_id){
+		return $this->db->get_where("optional_charges",array("shop_id"=>$shop_id))->result_array();
+	}
+	
+	function getIcecreams($shop_id){
+		return $this->db->get_where("icecreams",array("shop_id"=>$shop_id))->result_array();
+	}
+	
+	function getToppings($shop_id){
+		return $this->db->get_where("toppings",array("shop_id"=>$shop_id))->result_array();
+	}
+	
+	function getCups($shop_id){
+		return $this->db->get_where("cups",array("shop_id"=>$shop_id))->result_array();
+	}
+	
 
 }
 

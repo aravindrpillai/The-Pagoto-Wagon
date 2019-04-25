@@ -37,8 +37,18 @@ class Billing extends CI_Controller {
 		$this->session->set_flashdata('billing_shop_id',$shop_id);
 		$this->session->set_flashdata('billing_selected_shop_id_'.$shop_id,"selected");
 		
+		$icecreams =$this->BillingModel->getIcecreams($shop_id);
+		$toppings =$this->BillingModel->getToppings($shop_id);
+		$cups =$this->BillingModel->getCups($shop_id);
+		$optional_items =$this->BillingModel->getOptionalItems($shop_id);
 		
-		$this->load->view('billing',array("shops"=>$shops));
+		$this->load->view('billing',array(
+			"shops"=>$shops,
+			"icecreams"=>$icecreams,
+			"toppings"=>$toppings,
+			"cups"=>$cups,
+			"optional_items"=>$optional_items
+			));
 	}
 	
 	

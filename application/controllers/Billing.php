@@ -41,13 +41,15 @@ class Billing extends CI_Controller {
 		$toppings =$this->BillingModel->getToppings($shop_id);
 		$cups =$this->BillingModel->getCups($shop_id);
 		$optional_items =$this->BillingModel->getOptionalItems($shop_id);
+		$extra_charges =$this->BillingModel->getExtraCharges($shop_id);
 		
 		$this->load->view('billing',array(
 			"shops"=>$shops,
 			"icecreams"=>$icecreams,
 			"toppings"=>$toppings,
 			"cups"=>$cups,
-			"optional_items"=>$optional_items
+			"optional_items"=>$optional_items,
+			"extra_charges"=>$extra_charges
 			));
 	}
 	

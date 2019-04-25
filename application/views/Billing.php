@@ -57,7 +57,7 @@
 											  </form>
 											</h3>
                                             <div class="box-tools">
-                                                <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#modal-default"><i class="fa fa-check"></i> Place Order</button>
+                                                <button onClick="placeOrder()" id="place_order_btn" class="btn btn-flat btn-success" data-toggle="modal" data-target="#modal-default"><i class="fa fa-check"></i> Place Order</button>
                                             </div>
                                         </div>
 
@@ -91,16 +91,7 @@
                                             <div class="box-header with-border">
                                                 <h3 class="box-title">Addons</h3>
                                             </div>
-                                            <div class="box-body">
-                                                <?php foreach($optional_items as $item): ?>
-                                                    <div class="form-group">
-                                                        <label>
-                                                            <input type="checkbox" class="minimal"> &nbsp;
-                                                            <?php echo $item["name"]." - Rs.".$item["amount"] ?>
-                                                        </label>
-                                                    </div>
-                                                    <?php endforeach; ?>
-                                            </div>
+                                            <div class="box-body" id="addons_div"></div>
                                         </div>
                                         <?php endif; ?>
 
@@ -138,7 +129,8 @@
 
                                 <div class="box-body no-padding">
                                     <table class="table table-condensed">
-                                        <tr>
+                                        <thead>
+										<tr>
                                             <th style="width: 10px">#</th>
                                             <th style="width: 30px">Icecream</th>
                                             <th style="width: 30px">Topping</th>
@@ -146,54 +138,12 @@
                                             <th style="width: 10px">Qualtity</th>
                                             <th style="width: 10px">Amount</th>
                                         </tr>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>ChocoLava (35)</td>
-                                            <td>Oreo (5)</td>
-                                            <td>Medium (3)</td>
-                                            <td>2</td>
-                                            <td>48</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Babana Icecream (30)</td>
-                                            <td>Oreo (5)</td>
-                                            <td>Small (2)</td>
-                                            <td>4</td>
-                                            <td>56</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Ocean Icecream (50)</td>
-                                            <td>Choco Chips (5)</td>
-                                            <td>Large (3)</td>
-                                            <td>1</td>
-                                            <td>30</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Banana Icecream</td>
-                                            <td>Choco Chips (5)</td>
-                                            <td>Large (3)</td>
-                                            <td>1</td>
-                                            <td>30</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><b>Total</b></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><b>Rs. 450</b></td>
-                                        </tr>
+										</thead>
+										<tbody id="items_final_quote"></tbody>
+										<thead>
+											<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+											<tr><td></td><td></td><td><b>Total</b></td><td></td><td></td><td><b id="items_net_price_on_modal"></b></td></tr>
+										</thead>
                                     </table>
                                 </div>
                                 <div class="box">
@@ -202,46 +152,12 @@
                                     </div>
                                     <div class="box-body no-padding">
                                         <table class="table table-condensed">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Item</th>
-                                                <th>Price</th>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <td>Icecreams</td>
-                                                <td>450</td>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <td>Water Bottle(Rs.20.00)</td>
-                                                <td>20</td>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <td>Tissue Paper(Rs.0.02)</td>
-                                                <td>0.02</td>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <td>SMS (Rs.0.50)</td>
-                                                <td>0.50</td>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <td>Tax (8%)</td>
-                                                <td>22</td>
-                                            </tr>
-                                            <tr>
-                                                <th></th>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Total</th>
-                                                <th>Rs.887</th>
-                                            </tr>
+                                            <thead><tr><th>#</th><th>Item</th><th>Price</th></tr></thead>
+											<tbody id="final_quote"></tbody>
+											<thead>
+												<tr><th></th><td></td><td></td></tr>
+												<tr><th>#</th><th>Total</th><th id="final_price_on_modal">Rs.0 /-</th></tr>
+											</thead>
                                         </table>
                                     </div>
                                 </div>
@@ -309,7 +225,36 @@
 			});
 		<?php endforeach; ?>
 		
+		var addons = [];
+		<?php foreach($optional_items as $data): ?>
+			addons.push({
+				id : "<?php echo $data["id"] ?>",
+				name : "<?php echo $data["name"] ?>",
+				price : "<?php echo $data["amount"] ?>"
+			});
+		<?php endforeach; ?>
+		
+		
+		var extra_charges = [];
+		<?php foreach($extra_charges as $data): ?>
+			extra_charges.push({
+				id : "<?php echo $data["id"] ?>",
+				name : "<?php echo $data["name"] ?>",
+				price : "<?php echo $data["amount"] ?>"
+			});
+		<?php endforeach; ?>
+		
+		
+		var addon_content = ""
+		$.each(addons, function(index,item) {           
+			addon_content += '<div class="form-group"><label onClick="addAddOns(\''+index+'\')">';
+			addon_content += '<input id="addon_'+index+'" type="checkbox" class="minimal"> &nbsp;'+item["name"]+" - Rs."+item["price"]+'</label></div>';
+		}); 
+		$("#addons_div").html(addon_content);
+		
+		
 		items_array = [];
+		$("#place_order_btn").hide();
 		
 		var tr_index = 1;
 		function addNewItem(){
@@ -341,6 +286,7 @@
 			generateItemCost(tr_index);
 			tr_index += 1;
 			generateIndex();
+			$("#place_order_btn").show();
 		}
 		
 		
@@ -349,6 +295,9 @@
 			$("#tr_"+tr_id).remove();
 			generateNetItemsAmount();
 			generateIndex();
+			if(items_array.length < 1){
+				$("#place_order_btn").hide();
+			}
 		}
 		
 		
@@ -382,9 +331,68 @@
 		function generateNetItemsAmount(){
 			var items_total = 0;
 			$.each(items_array, function(index,each_tr_id) {             
-				items_total += parseInt($("#row_amount_"+each_tr_id).val());
+				items_total += parseFloat($("#row_amount_"+each_tr_id).val());
 			});
 			$("#items_total").val(items_total);
+			return items_total;
+		}
+		
+		var addons_array = [];
+		function addAddOns(addon_index){
+			if(!$("#addon_"+addon_index).is(':checked')){
+				addons_array.push(addon_index);
+			}else{
+				addons_array.splice( $.inArray(addon_index, addons_array), 1 );
+			}
+		}
+		
+		function placeOrder(){
+			var ordered_items = "";
+			var sel_icecream_index = "";
+			var sel_topping_index = "";
+			var sel_cup_index = "";
+			$.each(items_array, function(index,each_tr_id) {             
+				ordered_items += '<tr><td>'+(index+1)+'.</td>';
+				
+				sel_icecream_index = $("#icecream_"+each_tr_id).val();
+				ordered_items += '<td>'+icecreams[sel_icecream_index]["name"]+' ('+icecreams[sel_icecream_index]["price"]+')</td>';
+				
+				sel_topping_index = $("#topping_"+each_tr_id).val();
+				ordered_items += '<td>'+toppings[sel_topping_index]["name"]+' ('+toppings[sel_topping_index]["price"]+')</td>';
+				
+				sel_cup_index = $("#cup_"+each_tr_id).val();
+				ordered_items += '<td>'+cups[sel_cup_index]["name"]+' ('+cups[sel_cup_index]["price"]+')</td>';
+				
+				ordered_items += '<td>'+($("#quantity_"+each_tr_id).val())+'</td>';
+				ordered_items += '<td>'+($("#row_amount_"+each_tr_id).val())+'</td>';
+				
+				ordered_items += '</tr>';
+			});
+			$("#items_final_quote").html(ordered_items);
+			var items_net_price = generateNetItemsAmount();
+			$("#items_net_price_on_modal").html("Rs."+items_net_price+" /-");
+			
+			
+			
+			var final_bill_table = '<tr><td>1. </td><td>Icecream(s)</td><td>'+items_net_price+'</td>';
+			var lastIndex = 0;
+			var total_addons_cost = 0;
+			$.each(addons_array, function(index,addons_array_index) {             
+				final_bill_table += '<tr><td>'+(index+2)+'. </td><td>'+addons[addons_array_index]["name"]+'</td><td>'+addons[addons_array_index]["price"]+'</td></tr>';
+				total_addons_cost += parseFloat(addons[addons_array_index]["price"]);
+				lastIndex = index+2;
+			});
+			
+			var total_additional_cost = 0;
+			$.each(extra_charges, function(index,each_elem) {             
+				final_bill_table += '<tr><td>'+(lastIndex+1)+'. </td><td>'+each_elem["name"]+'</td><td>'+each_elem["price"]+'</td></tr>';
+				total_additional_cost += parseFloat(each_elem["price"]);
+				lastIndex = (lastIndex+1);
+			});
+			
+			$("#final_quote").html(final_bill_table);
+			$("#final_price_on_modal").html(items_net_price+total_addons_cost+total_additional_cost);
+			
 		}
     </script>
 

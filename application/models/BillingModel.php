@@ -30,6 +30,11 @@ class BillingModel extends CI_Model{
 	}
 	
 
+	function getExtraCharges($shop_id){
+		return $this->db->get_where("extra_charges",array("shop_id"=>$shop_id))->result_array();
+	}
+	
+
 }
 
 ?>

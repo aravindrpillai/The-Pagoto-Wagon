@@ -13,10 +13,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<body class="login-page"  style="height:150px!important">
+<body class="login-page" style="height:150px!important;">
 <div class="login-box">
   <div class="login-logo">
-    <a>The<b>Pagoto</b>Wagon</a>
+    <a><font color="#fff" size="9">The<b>Pagoto</b>Wagon</font></a>
   </div>
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
@@ -46,7 +46,7 @@
     </form>
   </div>
   <hr>
-  <a>Version : 1.0 | Credits: Aravind (9447020535)</a>
+   <a><font color="#fff" size="2">Version : 1.0 | Credits: Aravind (9447020535)</font></a>
 </div>
 
 <script src="<?php echo base_url('assets/bootstrap/bower_components/jquery/dist/jquery.min.js') ?>"></script>
@@ -61,5 +61,12 @@
     });
   });
 </script>
+<style>
+body {
+  background-image: url("<?php echo base_url('assets/bootstrap/bg/bg.jpg'); ?>")!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
+}
+</style>
 </body>
 </html>

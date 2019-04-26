@@ -281,7 +281,17 @@
 		$("#place_order_btn").hide();
 		
 		var tr_index = 1;
+		addNewItem();
+		
 		function addNewItem(){
+			if(icecreams.length < 1 || toppings.length < 1 || cups.length < 1){
+				alert("Items Not available");
+			}else{
+				addNewItem_main();
+			}
+		}
+		
+		function addNewItem_main(){
 			items_array.push(tr_index);
 			var tr_content = '<tr id="tr_'+tr_index+'"><td><i id="index_'+tr_index+'"></i><br><i onClick="removeItem('+tr_index+')" style="color:red" class="fa fa-trash"><i></td>';
             tr_content += '<td><div class="form-group"><select id="icecream_'+tr_index+'" onChange="generateItemCost('+tr_index+')" class="form-control select2" style="width: 100%;">';

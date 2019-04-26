@@ -24,7 +24,7 @@
 
                 <div class="content-wrapper">
                     <section class="content-header">
-                        <h1>Billing</h1>
+                        <h1>Billing </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                             <li class="active">Billing</li>
@@ -57,6 +57,7 @@
 											  </form>
 											</h3>
                                             <div class="box-tools">
+												<button class="btn btn-info" onclick=" window.open('<?php echo base_url('Billing') ?>','_blank')"> <i class="fa fa-plus"></i> New Tab </button>
                                                 <button onClick="placeOrder()" id="place_order_btn" class="btn btn-flat btn-success" data-toggle="modal" data-target="#modal-default"><i class="fa fa-check"></i> Place Order</button>
                                             </div>
                                         </div>

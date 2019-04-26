@@ -162,9 +162,33 @@
                                     </div>
                                 </div>
 
+								<div class="box">
+								
+								</div>
+								
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Bill</button>
+                                    <table>
+									<tr width="100%">
+									<td width="25%"><label class="pull-left">Pay. Mode</label></td>
+									<td width="25%" class="bal_fields"><label class="pull-left">Amt Received</label></td>
+									<td width="25%" class="bal_fields"><label class="pull-left">Bal. Amt.</label></td>
+									<td width="25%" class="pull-right"></td>
+									</tr>
+									<tr>
+									<td>
+										<select class="form-control" id="payment_mode" onChange="enableDisableBalanceFields()"; >
+											<option value="cash">Cash</option>
+											<option value="card">Card</option>
+											<option value="paytm">PayTM</option>
+											<option value="gpay">G.Pay</option>
+											<option value="phonepay">PhonePe</option>
+										</select>
+									</td>
+									<td class="bal_fields"><input id="amount_received" type="text" onChange="generateBalanceAmount()" class="form-control" placeholder="Amount given"></td>
+									<td class="bal_fields"><input id="balance_amount" type="text" onClick="generateBalanceAmount()" readonly value="0" class="form-control" placeholder="Balance"></td>
+									<td><button type="button" class="btn btn-primary">Submit Purchase</button></td>
+									</tr>
+									</table>
                                 </div>
                             </div>
                         </div>
@@ -346,6 +370,7 @@
 			}
 		}
 		
+		var gross_total_amount = 0;
 		function placeOrder(){
 			var ordered_items = "";
 			var sel_icecream_index = "";
@@ -391,8 +416,25 @@
 			});
 			
 			$("#final_quote").html(final_bill_table);
-			$("#final_price_on_modal").html(items_net_price+total_addons_cost+total_additional_cost);
+			gross_total_amount = items_net_price+total_addons_cost+total_additional_cost;
+			$("#final_price_on_modal").html(gross_total_amount);
 			
+		}
+		
+		
+		function generateBalanceAmount(){
+			enableDisableBalanceFields();
+			$("#balance_amount").val(parseFloat($("#amount_received").val()) - gross_total_amount);
+		}
+		
+		enableDisableBalanceFields();
+		function enableDisableBalanceFields(){
+			var pmode = $("#payment_mode").val();
+			if(pmode == "cash"){
+				$(".bal_fields").show();
+			}else{
+				$(".bal_fields").hide();
+			}
 		}
     </script>
 

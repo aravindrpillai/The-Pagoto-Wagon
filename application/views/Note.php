@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Notez</title>
-	<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" >
-	<link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>" >
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 </head>
 
 <body>
@@ -89,10 +89,10 @@
 </body>
 </html>
 
-	<script src="<?php echo base_url('assets/js/jquery-1.11.3.min.js') ?>"></script>
-	<script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
-	<script src="<?php echo base_url('assets/js/ie10-viewport-bug-workaround.js') ?>"></script>
-	<script src="<?php echo base_url('assets/js/holder.min.js') ?>"></script>
+    <script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/ie10-viewport-bug-workaround.js"></script>
+	<script src="js/holder.min.js"></script>
 	<script>
 		var negRegFlag = false;
 		$("#full-name-div").hide();
